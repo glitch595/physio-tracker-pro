@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>PhysioTrack Pro</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--p:#0f766e;--pd:#0d5f59;--pl:#14b8a6;--d:#dc2626;--w:#f59e0b;--bg:#f1f5f9;--t:#0f172a;--m:#64748b;--b:#e2e8f0}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -146,7 +147,7 @@ tbody td{padding:12px 12px;border-bottom:1px solid #f1f5f9;vertical-align:middle
 </aside>
 <main class="mn">
 <section class="pg on" id="page-dashboard">
-<div class="ph"><div><h3>Dashboard</h3><p>Your caseload overview</p></div><button class="btn bp" onclick="openPatientModal()">+ Add Patient</button></div>
+<div class="ph"><div><h3>Dashboard</h3><p>Your caseload overview</p></div><div class="hd"><button class="btn bg" onclick="exportReport()">📄 PDF Report</button><button class="btn bp" onclick="openPatientModal()">+ Add Patient</button></div></div>
 <div class="gd g4" id="statCards"></div>
 <div class="gd g2" style="margin-top:18px">
 <div class="cd"><h4 style="font-size:14px;font-weight:700;margin-bottom:12px">Avg Quality Trend</h4><div style="position:relative;height:220px"><canvas id="cohortChart"></canvas></div></div>
@@ -208,7 +209,7 @@ tbody td{padding:12px 12px;border-bottom:1px solid #f1f5f9;vertical-align:middle
 <div class="mf"><button class="btn bg" onclick="closeModal('sessionModal')">Cancel</button><button class="btn bp" onclick="saveSession()">Save Session</button></div>
 </div></div>
 <div class="mb" id="detailModal"><div class="md" style="max-width:760px">
-<div class="mh"><h4 id="detailTitle">Patient</h4><button class="cx" onclick="closeModal('detailModal')">×</button></div>
+<div class="mh"><h4 id="detailTitle">Patient</h4><div style="display:flex;gap:6px;align-items:center"><button class="btn bg bs" onclick="exportPatientReport()">📄 PDF</button><button class="cx" onclick="closeModal('detailModal')">×</button></div></div>
 <div class="mbd" id="detailBody"></div>
 </div></div>
 <div class="ts" id="toast"></div>
@@ -270,7 +271,7 @@ ${alertRows.length?`<h4 style="font-size:13px;font-weight:700;margin-bottom:8px"
 openModal('detailModal');
 setTimeout(()=>{const ctx=document.getElementById('detailChart');if(!ctx)return;if(window._dc)window._dc.destroy();window._dc=new Chart(ctx,{type:'line',data:{labels:m.sessions.map(s=>fmtDate(s.date).replace(/,.*/,'')),datasets:[{label:'Quality',data:m.sessions.map(s=>s.quality),borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,.1)',tension:.35,fill:true,yAxisID:'y',pointRadius:2},{label:'ROM',data:m.sessions.map(s=>s.rom),borderColor:'#f59e0b',tension:.35,fill:false,yAxisID:'y1',pointRadius:2,borderDash:[5,3]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',beginAtZero:true,max:100,grid:{color:'#f1f5f9'}},y1:{position:'right',beginAtZero:true,grid:{display:false}},x:{grid:{display:false}}}}})},50)}
 
-function renderAlerts(){const alerts=activeAlerts();const el=document.getElementById('alertsList');if(!alerts.length){el.innerHTML=`<div class="em"><div class="bg2">✅</div><div style="font-weight:600">All clear</div><div style="font-size:13px">No active alerts.</div></div>`;updateBell();return}
+function renderAlerts(){window._currentPatientId=id;const alerts=activeAlerts();const el=document.getElementById('alertsList');if(!alerts.length){el.innerHTML=`<div class="em"><div class="bg2">✅</div><div style="font-weight:600">All clear</div><div style="font-size:13px">No active alerts.</div></div>`;updateBell();return}
 const groups={Critical:[],High:[],Medium:[],Low:[]};alerts.forEach(a=>groups[a.severity].push(a));
 el.innerHTML=Object.entries(groups).filter(([,arr])=>arr.length).map(([sev,arr])=>`<div style="margin-bottom:16px"><h4 style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--m);margin-bottom:6px">${sev} · ${arr.length}</h4>${arr.map(a=>{const p=DB.read().patients.find(x=>x.id===a.patientId);return `<div class="ai ${a.severity==='Critical'?'ac1':a.severity==='High'?'ac2':'ac3'}"><div class="ab"><div class="at">${esc(a.title)}</div><div class="am">${esc(a.meta)} · <em>${esc(a.action)}</em></div>${p?`<button class="btn bg bs" style="margin-top:6px" onclick="viewPatient('${p.id}')">View →</button>`:''}</div><button class="btn bp bs" onclick="ackAlert('${a.id}')">Ack</button></div>`}).join('')}</div>`).join('');
 updateBell()}
@@ -286,6 +287,180 @@ function exportData(){const d=DB.read();const blob=new Blob([JSON.stringify(d,nu
 function wipeData(){if(!confirm('Erase ALL patients, sessions, and alerts? This cannot be undone.'))return;DB.update(d=>{d.patients=[];d.sessions=[];d.alerts=[];d.alertAcks={}});refreshAll();toast('All data erased','ok')}
 
 (function boot(){DB.init();const d=DB.read();if(d.currentUser)enterApp();else document.getElementById('authScreen').style.display='flex';document.querySelectorAll('.mb').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on')})});document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.mb.on').forEach(m=>m.classList.remove('on'))})})();
+    function exportReport(){
+  const d=DB.read();
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF('p','pt','a4');
+  const pageW=doc.internal.pageSize.getWidth();
+  const pageH=doc.internal.pageSize.getHeight();
+  const margin=40;
+  let y=margin;
+  doc.setFillColor(15,118,110);
+  doc.rect(0,0,pageW,70,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(20);doc.setFont('helvetica','bold');
+  doc.text('PhysioTrack Pro',margin,34);
+  doc.setFontSize(10);doc.setFont('helvetica','normal');
+  doc.text('Clinical Progress Report',margin,52);
+  doc.text('Generated '+new Date().toLocaleString(),pageW-margin,52,{align:'right'});
+  y=100;
+  doc.setTextColor(15,23,42);
+  doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text('Clinician',margin,y);y+=16;
+  doc.setFontSize(10);doc.setFont('helvetica','normal');
+  doc.text('Name: '+(d.currentUser?.name||'—'),margin,y);y+=14;
+  doc.text('Email: '+(d.currentUser?.email||'—'),margin,y);y+=14;
+  if(d.currentUser?.clinic){doc.text('Clinic: '+d.currentUser.clinic,margin,y);y+=14}
+  y+=10;
+  doc.setDrawColor(226,232,240);
+  doc.line(margin,y,pageW-margin,y);y+=20;
+  const now=new Date().toISOString().slice(0,10);
+  const alerts=activeAlerts();
+  doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text('Caseload Summary',margin,y);y+=18;
+  doc.setFontSize(10);doc.setFont('helvetica','normal');
+  const rows=[
+    ['Total patients',String(d.patients.length)],
+    ['Improving',String(d.patients.filter(p=>patientMetrics(p,d.sessions).status==='Improving').length)],
+    ['Regressing',String(d.patients.filter(p=>patientMetrics(p,d.sessions).status==='Regressing').length)],
+    ['Active alerts',String(alerts.length)],
+    ['Critical alerts',String(alerts.filter(a=>a.severity==='Critical').length)],
+    ['Total sessions',String(d.sessions.length)]
+  ];
+  rows.forEach(([k,v])=>{doc.text(k+':',margin,y);doc.text(v,margin+180,y);y+=14});
+  y+=12;
+  doc.setDrawColor(226,232,240);
+  doc.line(margin,y,pageW-margin,y);y+=20;
+  doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text('Patient Details',margin,y);y+=18;
+  d.patients.forEach((p,i)=>{
+    const m=patientMetrics(p,d.sessions);
+    if(y>pageH-100){doc.addPage();y=margin}
+    doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(15,118,110);
+    doc.text((i+1)+'. '+p.name,margin,y);y+=15;
+    doc.setFont('helvetica','normal');doc.setTextColor(15,23,42);doc.setFontSize(9.5);
+    const info=[
+      'Age: '+(p.age||'—')+'    Condition: '+p.condition,
+      'Phase: '+p.phase+'    Target ROM: '+p.target+'°',
+      'Adherence (7d): '+m.adherence+'%    Avg Quality: '+Math.round(m.q7),
+      'Status: '+m.status+'    ROM %: '+m.romPct+'%',
+      'Sessions logged: '+m.sessions.length+'    Last: '+(m.lastSession?fmtDate(m.lastSession):'—')
+    ];
+    info.forEach(l=>{doc.text(l,margin+10,y);y+=13});
+    if(p.notes){doc.text('Notes: '+p.notes,margin+10,y);y+=13}
+    y+=8;
+    doc.setDrawColor(241,245,249);
+    doc.line(margin,y,pageW-margin,y);y+=12;
+  });
+  const tp=doc.internal.getNumberOfPages();
+  for(let pg=1;pg<=tp;pg++){
+    doc.setPage(pg);
+    doc.setFontSize(8);doc.setTextColor(100,116,139);
+    doc.text('PhysioTrack Pro · Confidential · Page '+pg+' of '+tp,pageW/2,pageH-20,{align:'center'});
+  }
+  doc.save('PhysioTrack-Report-'+now+'.pdf');
+  toast('PDF report downloaded','ok');
+}
+
+function exportPatientReport(){
+  const d=DB.read();
+  const p=d.patients.find(x=>x.id===window._currentPatientId)||d.patients[0];
+  if(!p){toast('No patient selected','er2');return}
+  const m=patientMetrics(p,d.sessions);
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF('p','pt','a4');
+  const pageW=doc.internal.pageSize.getWidth();
+  const pageH=doc.internal.pageSize.getHeight();
+  const margin=40;
+  let y=margin;
+  doc.setFillColor(15,118,110);
+  doc.rect(0,0,pageW,70,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(20);doc.setFont('helvetica','bold');
+  doc.text('Patient Progress Report',margin,34);
+  doc.setFontSize(10);doc.setFont('helvetica','normal');
+  doc.text(p.name,margin,52);
+  doc.text(new Date().toLocaleString(),pageW-margin,52,{align:'right'});
+  y=100;
+  doc.setTextColor(15,23,42);
+  doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text('Patient Information',margin,y);y+=18;
+  doc.setFontSize(10);doc.setFont('helvetica','normal');
+  const info=[
+    ['Name',p.name],
+    ['Age',String(p.age||'—')],
+    ['Condition',p.condition],
+    ['Phase',p.phase],
+    ['Prescribed',p.freq+' sessions/week'],
+    ['Target ROM',p.target+'°'],
+    ['Caregiver',p.caregiver||'—'],
+    ['Registered',fmtDate(p.created)]
+  ];
+  info.forEach(([k,v])=>{doc.text(k+':',margin,y);doc.text(String(v),margin+180,y);y+=14});
+  y+=10;
+  doc.setDrawColor(226,232,240);
+  doc.line(margin,y,pageW-margin,y);y+=18;
+  doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text('Current Status',margin,y);y+=18;
+  doc.setFontSize(10);doc.setFont('helvetica','normal');
+  const stat=[
+    ['Status',m.status],
+    ['Adherence (7d)',m.adherence+'%'],
+    ['Avg Quality (7d)',String(Math.round(m.q7))],
+    ['Latest ROM',m.latestRom+'° ('+m.romPct+'%)'],
+    ['Sessions',String(m.sessions.length)],
+    ['Last session',m.lastSession?fmtDate(m.lastSession):'—']
+  ];
+  stat.forEach(([k,v])=>{doc.text(k+':',margin,y);doc.text(String(v),margin+180,y);y+=14});
+  const alerts=activeAlerts().filter(a=>a.patientId===p.id);
+  y+=12;
+  doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text('Active Alerts ('+alerts.length+')',margin,y);y+=16;
+  doc.setFontSize(10);doc.setFont('helvetica','normal');
+  if(!alerts.length){
+    doc.setTextColor(22,101,52);
+    doc.text('No active alerts.',margin,y);y+=16;
+    doc.setTextColor(15,23,42);
+  }else{
+    alerts.forEach(a=>{
+      doc.setFont('helvetica','bold');
+      doc.text('['+a.severity+'] '+a.title,margin+10,y);y+=13;
+      doc.setFont('helvetica','normal');
+      doc.text('Action: '+a.action,margin+20,y);y+=14;
+    });
+  }
+  y+=12;
+  if(y>pageH-120){doc.addPage();y=margin}
+  doc.setFontSize(13);doc.setFont('helvetica','bold');
+  doc.text('Session History',margin,y);y+=16;
+  doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text('Date',margin,y);
+  doc.text('Exercise',margin+80,y);
+  doc.text('Reps',margin+220,y);
+  doc.text('Quality',margin+280,y);
+  doc.text('ROM°',margin+350,y);
+  doc.text('Pain',margin+410,y);
+  y+=14;
+  m.sessions.slice().reverse().forEach(s=>{
+    if(y>pageH-60){doc.addPage();y=margin+20}
+    doc.text(fmtDate(s.date),margin,y);
+    doc.text(String(s.exercise).slice(0,20),margin+80,y);
+    doc.text(String(s.reps),margin+220,y);
+    doc.text(String(s.quality),margin+280,y);
+    doc.text(String(s.rom),margin+350,y);
+    doc.text(s.painPre+'→'+s.painPost,margin+410,y);
+    y+=12;
+  });
+  const tp=doc.internal.getNumberOfPages();
+  for(let pg=1;pg<=tp;pg++){
+    doc.setPage(pg);
+    doc.setFontSize(8);doc.setTextColor(100,116,139);
+    doc.text('PhysioTrack Pro · '+p.name+' · Page '+pg+' of '+tp,pageW/2,pageH-20,{align:'center'});
+  }
+  doc.save('Patient-'+p.name.replace(/\s+/g,'_')+'-Report.pdf');
+  toast('Patient PDF downloaded','ok');
+}
+    })();
 </script>
 </body>
 </html>
