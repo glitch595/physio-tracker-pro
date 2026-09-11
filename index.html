@@ -10,7 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466124/drawing_utils.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js" crossorigin="anonymous"></script>
 <style>
-  :root{--p:#0f766e;--pd:#0d5f59;--pl:#14b8a6;--d:#dc2626;--w:#f59e0b;--bg:#f1f5f9;--t:#0f172a;--m:#64748b;--b:#e2e8f0;--card:#fff}
+  :root{--p:#0f766e;--pd:#0d5f59;--pl:#14b8a6;--d:#dc2626;--w:#f59e0b;--bg:#f1f5f9;--t:#0f172a;--m:#64748b;--b:#e2e8f0}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -122,6 +122,26 @@ tbody tr:hover{background:#f8fafc}
 .mr .nm{font-weight:600;font-size:14px}
 .mr .em2{font-size:12.5px;color:var(--m)}
 .bc{background:var(--p);color:#fff;font-size:11px;padding:1px 7px;border-radius:20px;font-weight:700}
+.vs{position:relative;background:#000;border-radius:14px;overflow:hidden;aspect-ratio:4/3}
+.vs video,.vs canvas.oc{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.vs .hud{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;z-index:3;pointer-events:none}
+.hc{background:rgba(0,0,0,.6);color:#fff;padding:5px 11px;border-radius:20px;font-size:12.5px;font-weight:600;backdrop-filter:blur(6px)}
+.hc.good{background:rgba(22,163,74,.85)}
+.hc.warn{background:rgba(245,158,11,.9)}
+.hc.bad{background:rgba(220,38,38,.85)}
+.pst{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ps{background:#f8fafc;border-radius:10px;padding:11px 13px}
+.ps .l{font-size:11.5px;color:var(--m);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.ps .v{font-size:22px;font-weight:700;margin-top:2px}
+.pf{margin-top:12px;padding:12px;border-radius:10px;font-size:13.5px;font-weight:500;background:#f0fdf4;color:#166534;border-left:3px solid #16a34a}
+.pf.warn{background:#fff7ed;color:#9a3412;border-color:#f97316}
+.pf.bad{background:#fef2f2;color:#991b1b;border-color:#dc2626}
+.pc{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tsl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tsl button{padding:6px 12px;border-radius:20px;background:#f1f5f9;font-size:12.5px;font-weight:600;color:#475569;transition:.15s}
+.tsl button.on{background:var(--p);color:#fff}
+.pw{display:grid;grid-template-columns:1fr 340px;gap:16px}
+@media(max-width:920px){.pw{grid-template-columns:1fr}}
 @media(max-width:820px){
 .sb{position:fixed;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;border-right:none;border-top:1px solid var(--b);padding:8px;z-index:60;justify-content:space-around}
 .nv{flex-direction:column;gap:3px;font-size:11px;padding:8px 6px;text-align:center;flex:1;position:relative}
@@ -212,6 +232,7 @@ tbody tr:hover{background:#f8fafc}
 <aside class="sb">
 <button class="nv on" data-page="dashboard" onclick="showPage('dashboard')"><span class="ic">📊</span>Dashboard</button>
 <button class="nv" data-page="patients" onclick="showPage('patients')"><span class="ic">👥</span>Patients</button>
+<button class="nv" data-page="pose" onclick="showPage('pose')"><span class="ic">📹</span>Live Pose</button>
 <button class="nv" data-page="alerts" onclick="showPage('alerts')"><span class="ic">🚨</span>Alerts<span class="bdg" id="navAlertBadge" style="display:none">0</span></button>
 <button class="nv" data-page="sessions" onclick="showPage('sessions')"><span class="ic">📝</span>Sessions</button>
 <button class="nv" data-page="team" onclick="showPage('team')"><span class="ic">🤝</span>Team</button>
@@ -240,7 +261,6 @@ tbody tr:hover{background:#f8fafc}
 </div>
 </div>
 </section>
-
 <section class="pg" id="page-patients">
 <div class="ph">
 <div><h3>Patients</h3><p id="patientCount">0 patients</p></div>
@@ -265,6 +285,65 @@ tbody tr:hover{background:#f8fafc}
 <div id="patientEmpty"></div>
 </section>
 
+<section class="pg" id="page-pose">
+<div class="ph">
+<div><h3>Live Pose Analysis</h3><p>Real-time form feedback using on-device AI</p></div>
+<button class="btn bg bs" onclick="togglePoseHelp()">❓ How it works</button>
+</div>
+<div id="poseHelp" style="display:none;margin-bottom:16px" class="cd">
+<div style="font-size:13.5px;color:#475569;line-height:1.6">
+<strong>How it works:</strong> MediaPipe Pose detects 33 body landmarks per frame. We compute joint angles, count reps, and score form — all locally in your browser.<br/><br/>
+<strong>No video leaves your device.</strong><br/><br/>
+<strong>Tips:</strong> Stand 2–3 m back, full body visible, good lighting.
+</div>
+</div>
+<div class="pw">
+<div>
+<div class="vs">
+<video id="poseVideo" playsinline></video>
+<canvas class="oc" id="poseCanvas"></canvas>
+<div class="hud">
+<span class="hc" id="hudReps">Reps: 0</span>
+<span class="hc" id="hudQuality">Form: —</span>
+<span class="hc" id="hudExercise">Knee Extension</span>
+</div>
+</div>
+<div class="pc">
+<button class="btn bp" id="poseStartBtn" onclick="startPose()">▶ Start Camera</button>
+<button class="btn bg" id="poseStopBtn" onclick="stopPose()" disabled>■ Stop</button>
+<button class="btn bp" id="poseSaveBtn" onclick="savePoseSession()" disabled>💾 Save Session</button>
+</div>
+</div>
+<div>
+<div class="cd">
+<div style="font-size:13px;font-weight:700;margin-bottom:8px">Exercise Target</div>
+<div class="tsl" id="exerciseTargets">
+<button class="on" data-ex="Knee Extension" onclick="selectExercise(this)">Knee Ext</button>
+<button data-ex="Squat" onclick="selectExercise(this)">Squat</button>
+<button data-ex="Shoulder Flexion" onclick="selectExercise(this)">Shoulder</button>
+<button data-ex="Arm Raise" onclick="selectExercise(this)">Arm Raise</button>
+</div>
+<div style="font-size:13px;font-weight:700;margin:14px 0 8px">Patient</div>
+<select id="posePatient" style="width:100%;padding:9px 12px;border:1.5px solid var(--b);border-radius:9px;font-size:14px"></select>
+</div>
+<div class="cd" style="margin-top:14px">
+<div style="font-size:13px;font-weight:700;margin-bottom:10px">Live Metrics</div>
+<div class="pst">
+<div class="ps"><div class="l">Reps</div><div class="v" id="statReps">0</div></div>
+<div class="ps"><div class="l">Quality</div><div class="v" id="statQuality">—</div></div>
+<div class="ps"><div class="l">Angle</div><div class="v" id="statAngle">—°</div></div>
+<div class="ps"><div class="l">Range</div><div class="v" id="statRange" style="font-size:15px">—</div></div>
+</div>
+<div class="pf" id="poseFeedback">Click <strong>Start Camera</strong> to begin.</div>
+</div>
+<div class="cd" style="margin-top:14px">
+<div style="font-size:13px;font-weight:700;margin-bottom:8px">Rep Log</div>
+<div id="repLog" style="font-size:12.5px;color:var(--m);max-height:180px;overflow-y:auto">Reps appear here…</div>
+</div>
+</div>
+</div>
+</section>
+
 <section class="pg" id="page-alerts">
 <div class="ph">
 <div><h3>Alerts</h3><p>Real-time clinical alerts</p></div>
@@ -284,7 +363,6 @@ tbody tr:hover{background:#f8fafc}
 </table>
 </div>
 </section>
-
 <section class="pg" id="page-team">
 <div class="ph">
 <div><h3>Team</h3><p>Manage clinicians and share access</p></div>
@@ -459,7 +537,7 @@ tbody tr:hover{background:#f8fafc}
 <div class="ts" id="toast"></div>
 <script>
 window.addEventListener('error',function(e){var box=document.getElementById('errBox');if(!box){box=document.createElement('div');box.id='errBox';box.style.cssText='position:fixed;top:0;left:0;right:0;background:#dc2626;color:#fff;padding:12px;font-size:13px;z-index:9999;font-family:monospace;white-space:pre-wrap';document.body.prepend(box);}box.textContent='ERROR: '+e.message+' @ line '+e.lineno+':'+e.colno;});
-const DB={KEY:'physiotrack_v5',read:function(){try{return JSON.parse(localStorage.getItem(this.KEY))}catch(e){return null}},write:function(d){localStorage.setItem(this.KEY,JSON.stringify(d))},init:function(){var d=this.read();if(!d){d={users:[],patients:[],sessions:[],alerts:[],alertAcks:{},currentUser:null,team:[]};this.write(d)}return d},update:function(fn){var d=this.read();fn(d);this.write(d);return d}};
+var DB={KEY:'physiotrack_v6',read:function(){try{return JSON.parse(localStorage.getItem(this.KEY))}catch(e){return null}},write:function(d){localStorage.setItem(this.KEY,JSON.stringify(d))},init:function(){var d=this.read();if(!d){d={users:[],patients:[],sessions:[],alerts:[],alertAcks:{},currentUser:null,team:[]};this.write(d)}return d},update:function(fn){var d=this.read();fn(d);this.write(d);return d}};
 function uid(){return Math.random().toString(36).slice(2,10)}
 function switchAuth(m){
 document.getElementById('tabL').classList.toggle('on',m==='login');
@@ -525,10 +603,12 @@ var nvs=document.querySelectorAll('.nv');
 for(var j=0;j<nvs.length;j++){if(nvs[j].dataset.page===p)nvs[j].classList.add('on');else nvs[j].classList.remove('on')}
 if(p==='dashboard')renderDashboard();
 if(p==='patients')renderPatients();
+if(p==='pose')populatePosePatientSelect();
 if(p==='alerts')renderAlerts();
 if(p==='sessions')renderSessions();
 if(p==='team')renderTeam();
 if(p==='settings')renderSettings();
+if(p!=='pose')stopPose();
 }
 function refreshAll(){
 computeAlerts();
@@ -554,7 +634,7 @@ e._t=setTimeout(function(){e.classList.remove('on')},2500);
 }
 function openModal(id){document.getElementById(id).classList.add('on')}
 function closeModal(id){document.getElementById(id).classList.remove('on')}
-  function patientMetrics(p,sessions){
+function patientMetrics(p,sessions){
 var ps=[];
 for(var i=0;i<sessions.length;i++){if(sessions[i].patientId===p.id)ps.push(sessions[i])}
 ps.sort(function(a,b){return a.date.localeCompare(b.date)});
@@ -624,7 +704,7 @@ var n=activeAlerts().length;
 var b=document.getElementById('navAlertBadge');
 if(n>0){b.textContent=n;b.style.display='inline-block'}else{b.style.display='none'}
 }
-function renderDashboard(){
+  function renderDashboard(){
 var d=DB.read();
 var alerts=activeAlerts();
 var now=new Date().toISOString().slice(0,10);
@@ -1068,7 +1148,6 @@ doc.text('Current Status',margin,y);y+=18;
 doc.setFontSize(10);doc.setFont('helvetica','normal');
 var stat=[['Status',m.status],['Adherence',m.adherence+'%'],['Avg Quality',String(Math.round(m.q7))],['Latest ROM',m.latestRom+'° ('+m.romPct+'%)'],['Sessions',String(m.sessions.length)]];
 for(var j=0;j<stat.length;j++){doc.text(stat[j][0]+':',margin,y);doc.text(String(stat[j][1]),margin+180,y);y+=14}
-var alerts=activeAlerts().filter?activeAlerts():[];
 var pAlerts=[];
 var aa=activeAlerts();
 for(var k=0;k<aa.length;k++){if(aa[k].patientId===p.id)pAlerts.push(aa[k])}
@@ -1085,10 +1164,180 @@ doc.setFont('helvetica','normal');
 doc.text('Action: '+pAlerts[a].action,margin+20,y);y+=14;
 }
 }
-var tp=doc.internal.getNumberOfPages();
+var tp=doc.internal.pageSize.getNumberOfPages?doc.internal.getNumberOfPages():1;
 for(var pg=1;pg<=tp;pg++){doc.setPage(pg);doc.setFontSize(8);doc.setTextColor(100,116,139);doc.text('PhysioTrack Pro · '+p.name+' · Page '+pg+' of '+tp,pageW/2,pageH-20,{align:'center'})}
 doc.save('Patient-'+p.name.replace(/\s+/g,'_')+'-Report.pdf');
 toast('Patient PDF downloaded','ok');
+}
+var pose=null,camera=null;
+var poseState={running:false,exercise:'Knee Extension',reps:0,minAngle:Infinity,maxAngle:-Infinity,currentAngle:0,repPhase:'up',qualityScores:[],repLog:[]};
+var EX_CFG={'Knee Extension':{left:['left_hip','left_knee','left_ankle'],right:['right_hip','right_knee','right_ankle'],downAngle:95,upAngle:160},'Squat':{left:['left_hip','left_knee','left_ankle'],right:['right_hip','right_knee','right_ankle'],downAngle:100,upAngle:165},'Shoulder Flexion':{left:['left_hip','left_shoulder','left_elbow'],right:['right_hip','right_shoulder','right_elbow'],downAngle:40,upAngle:160},'Arm Raise':{left:['left_hip','left_shoulder','left_elbow'],right:['right_hip','right_shoulder','right_elbow'],downAngle:40,upAngle:160}};
+function populatePosePatientSelect(){
+var d=DB.read();
+var sel=document.getElementById('posePatient');if(!sel)return;
+var cur=sel.value;
+var opts='';
+for(var i=0;i<d.patients.length;i++){opts+='<option value="'+d.patients[i].id+'">'+esc(d.patients[i].name)+'</option>'}
+sel.innerHTML=opts||'<option value="">No patients</option>';
+if(cur){var found=false;for(var j=0;j<d.patients.length;j++){if(d.patients[j].id===cur)found=true}if(found)sel.value=cur}
+}
+function selectExercise(btn){
+var all=document.querySelectorAll('#exerciseTargets button');
+for(var i=0;i<all.length;i++)all[i].classList.remove('on');
+btn.classList.add('on');
+poseState.exercise=btn.dataset.ex;
+document.getElementById('hudExercise').textContent=btn.dataset.ex;
+resetPoseState();
+}
+function resetPoseState(){poseState.reps=0;poseState.minAngle=Infinity;poseState.maxAngle=-Infinity;poseState.currentAngle=0;poseState.repPhase='up';poseState.qualityScores=[];poseState.repLog=[];updatePoseUI()}
+function togglePoseHelp(){var h=document.getElementById('poseHelp');h.style.display=h.style.display==='none'?'block':'none'}
+function speak(text){
+if(!window.speechSynthesis)return;
+try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.rate=1.1;u.pitch=1;speechSynthesis.speak(u)}catch(e){}
+}
+function startPose(){
+try{
+if(!pose){
+pose=new Pose({locateFile:function(f){return 'https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/'+f}});
+pose.setOptions({modelComplexity:1,smoothLandmarks:true,enableSegmentation:false,minDetectionConfidence:0.5,minTrackingConfidence:0.5});
+pose.onResults(onPoseResults);
+}
+var video=document.getElementById('poseVideo');
+camera=new Camera(video,{onFrame:async function(){await pose.send({image:video})},width:640,height:480});
+camera.start().then(function(){
+poseState.running=true;
+document.getElementById('poseStartBtn').disabled=true;
+document.getElementById('poseStopBtn').disabled=false;
+document.getElementById('poseSaveBtn').disabled=false;
+resetPoseState();
+setFeedback('Camera running. Stand back so your full body is visible.','');
+speak('Camera started. Stand back.');
+toast('Camera started','ok');
+}).catch(function(err){
+console.error(err);
+setFeedback('Could not access camera. Grant permission or check HTTPS.','bad');
+toast('Camera error: '+err.message,'er2');
+});
+}catch(err){console.error(err);setFeedback('Camera init failed','bad')}
+}
+function stopPose(){
+if(camera){try{camera.stop()}catch(e){}camera=null}
+poseState.running=false;
+var vb=document.getElementById('poseStartBtn');
+var sb=document.getElementById('poseStopBtn');
+if(vb)vb.disabled=false;
+if(sb)sb.disabled=true;
+}
+function onPoseResults(results){
+var canvas=document.getElementById('poseCanvas');
+var ctx=canvas.getContext('2d');
+canvas.width=results.image.width;
+canvas.height=results.image.height;
+ctx.save();ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.drawImage(results.image,0,0,canvas.width,canvas.height);
+if(results.poseLandmarks){
+drawConnectors(ctx,results.poseLandmarks,POSE_CONNECTIONS,{color:'#14b8a6',lineWidth:3});
+drawLandmarks(ctx,results.poseLandmarks,{color:'#0f766e',lineWidth:1,radius:4});
+analyzePose(results.poseLandmarks);
+}
+ctx.restore();
+}
+function angleAt(a,b,c){
+var ab={x:a.x-b.x,y:a.y-b.y};
+var cb={x:c.x-b.x,y:c.y-b.y};
+var dot=ab.x*cb.x+ab.y*cb.y;
+var mA=Math.hypot(ab.x,ab.y);
+var mC=Math.hypot(cb.x,cb.y);
+if(mA===0||mC===0)return 0;
+var cos=Math.max(-1,Math.min(1,dot/(mA*mC)));
+return Math.acos(cos)*180/Math.PI;
+}
+function lm(landmarks,name){
+var idx={left_shoulder:11,right_shoulder:12,left_elbow:13,right_elbow:14,left_wrist:15,right_wrist:16,left_hip:23,right_hip:24,left_knee:25,right_knee:26,left_ankle:27,right_ankle:28}[name];
+return idx!=null?landmarks[idx]:null;
+}
+function analyzePose(landmarks){
+var cfg=EX_CFG[poseState.exercise];
+if(!cfg)return;
+var getAngle=function(side){
+var a=lm(landmarks,cfg[side][0]);
+var b=lm(landmarks,cfg[side][1]);
+var c=lm(landmarks,cfg[side][2]);
+if(!a||!b||!c)return null;
+return angleAt(a,b,c);
+};
+var lA=getAngle('left'),rA=getAngle('right');
+var visL=lA&&lm(landmarks,cfg.left[0])&&lm(landmarks,cfg.left[0]).visibility>0.5;
+var visR=rA&&lm(landmarks,cfg.right[0])&&lm(landmarks,cfg.right[0]).visibility>0.5;
+var angle=null;
+if(visL&&visR)angle=(lA+rA)/2;
+else if(visL)angle=lA;
+else if(visR)angle=rA;
+if(angle==null)return;
+poseState.currentAngle=angle;
+poseState.minAngle=Math.min(poseState.minAngle,angle);
+poseState.maxAngle=Math.max(poseState.maxAngle,angle);
+var isLow=angle<=cfg.downAngle;
+var isHigh=angle>=cfg.upAngle;
+if(poseState.repPhase==='up'&&isLow){poseState.repPhase='down'}
+else if(poseState.repPhase==='down'&&isHigh){
+poseState.repPhase='up';
+var rom=poseState.maxAngle-poseState.minAngle;
+var quality=scoreRep(rom,poseState.exercise);
+poseState.reps+=1;
+poseState.qualityScores.push(quality);
+poseState.repLog.unshift({n:poseState.reps,rom:Math.round(rom),quality:quality,time:new Date().toLocaleTimeString()});
+poseState.minAngle=Infinity;
+poseState.maxAngle=-Infinity;
+speak('Rep '+poseState.reps);
+}
+updatePoseUI();
+var status=liveFormStatus(angle,cfg);
+setFeedback(status.msg,status.cls);
+}
+function scoreRep(rom,ex){
+var opt={'Knee Extension':{min:60,max:80},'Squat':{min:55,max:75},'Shoulder Flexion':{min:100,max:130},'Arm Raise':{min:100,max:130}}[ex]||{min:60,max:80};
+var base=50;
+if(rom>=opt.min&&rom<=opt.max)base=95;
+else if(rom<opt.min)base=50+(rom/opt.min)*40;
+else base=Math.max(70,95-(rom-opt.max)*0.8);
+return Math.round(Math.max(0,Math.min(100,base)));
+}
+function liveFormStatus(angle,cfg){
+if(poseState.repPhase==='down'){
+if(angle>cfg.downAngle+15)return{msg:'Deeper flexion needed.',cls:'warn'};
+return{msg:'Good depth — extend smoothly.',cls:''};
+}else{
+if(angle<cfg.upAngle-15)return{msg:'Extend further.',cls:'warn'};
+return{msg:'Full extension achieved!',cls:''};
+}
+}
+function updatePoseUI(){
+document.getElementById('statReps').textContent=poseState.reps;
+document.getElementById('statAngle').textContent=Math.round(poseState.currentAngle)+'°';
+var avgQ=poseState.qualityScores.length?Math.round(poseState.qualityScores.reduce(function(a,b){return a+b},0)/poseState.qualityScores.length):null;
+document.getElementById('statQuality').textContent=avgQ!=null?avgQ:'—';
+document.getElementById('statRange').textContent=poseState.minAngle===Infinity?'—':Math.round(poseState.minAngle)+'–'+Math.round(poseState.maxAngle)+'°';
+document.getElementById('hudReps').textContent='Reps: '+poseState.reps;
+var hq=document.getElementById('hudQuality');
+hq.textContent='Form: '+(avgQ!=null?avgQ:'—');
+hq.className='hc '+(avgQ==null?'':avgQ>=80?'good':avgQ>=60?'warn':'bad');
+var log=document.getElementById('repLog');
+if(poseState.repLog.length){log.innerHTML=poseState.repLog.map(function(r){return '<div style="padding:5px 0;border-bottom:1px solid #f1f5f9"><strong>Rep '+r.n+'</strong> · ROM '+r.rom+'° · Quality '+r.quality+'</div>'}).join('')}
+else{log.innerHTML='<div style="color:var(--m)">Reps will appear here…</div>'}
+}
+function setFeedback(msg,cls){var f=document.getElementById('poseFeedback');f.textContent=msg;f.className='pf '+(cls||'')}
+function savePoseSession(){
+var patientId=document.getElementById('posePatient').value;
+if(!patientId){toast('Select a patient','er2');return}
+if(poseState.reps===0){toast('No reps detected','er2');return}
+var avgQ=Math.round(poseState.qualityScores.reduce(function(a,b){return a+b},0)/poseState.qualityScores.length);
+var rom=Math.round(poseState.maxAngle-poseState.minAngle);
+var session={id:uid(),patientId:patientId,exercise:poseState.exercise,date:new Date().toISOString().slice(0,10),reps:poseState.reps,quality:avgQ,rom:rom,painPre:0,painPost:0,notes:'AI pose session · avg quality '+avgQ};
+DB.update(function(d){d.sessions.push(session)});
+refreshAll();
+speak('Session saved');
+toast('Session saved ('+poseState.reps+' reps, quality '+avgQ+')','ok');
 }
 (function boot(){
 DB.init();
@@ -1105,7 +1354,9 @@ var open=document.querySelectorAll('.mb.on');
 for(var j=0;j<open.length;j++)open[j].classList.remove('on');
 }
 });
+window.addEventListener('beforeunload',function(){stopPose()});
 })();
 </script>
 </body>
 </html>
+  
