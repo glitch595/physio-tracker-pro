@@ -10,23 +10,14 @@
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1675466124/drawing_utils.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js" crossorigin="anonymous"></script>
 <style>
-:root{
---p:#0f766e;--pd:#0d5f59;--pl:#14b8a6;
---d:#dc2626;--w:#f59e0b;
---bg:#f1f5f9;--t:#0f172a;--m:#64748b;--b:#e2e8f0;
---card:#ffffff;
-}
+  :root{--p:#0f766e;--pd:#0d5f59;--pl:#14b8a6;--d:#dc2626;--w:#f59e0b;--bg:#f1f5f9;--t:#0f172a;--m:#64748b;--b:#e2e8f0;--card:#fff}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{
-font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-background:var(--bg);color:var(--t);line-height:1.5;
--webkit-font-smoothing:antialiased;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.5;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 input,select,textarea{font-family:inherit;font-size:14px}
 a{color:var(--p);text-decoration:none}
-  .aw{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f766e 0%,#14b8a6 50%,#0ea5e9 100%);padding:24px}
+.aw{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f766e 0%,#14b8a6 50%,#0ea5e9 100%);padding:24px}
 .ac{width:100%;max-width:440px;background:#fff;border-radius:20px;padding:40px 32px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
 .br{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .bl{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--p),var(--pl));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px}
@@ -35,9 +26,9 @@ a{color:var(--p);text-decoration:none}
 .tb{display:flex;gap:4px;background:#f1f5f9;padding:4px;border-radius:10px;margin-bottom:24px}
 .tb button{flex:1;padding:9px;border-radius:7px;font-weight:600;font-size:14px;color:var(--m);transition:.2s}
 .tb button.on{background:#fff;color:var(--p);box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.fl{margin-bottom:16px}
+  .fl{margin-bottom:16px}
 .fl label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#334155}
-.fl input,.fl select,.fl textarea{width:100%;padding:11px 13px;border:1.5px solid var(--b);border-radius:10px;background:#fff;transition:.2s;outline:none}
+.fl input,.fl select,.fl textarea{width:100%;padding:11px 13px;border:1.5px solid var(--b);border-radius:10px;background:#fff;transition:.2s;outline:none;color:var(--t)}
 .fl input:focus,.fl select:focus,.fl textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(15,118,110,.12)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:10px;font-weight:600;font-size:14px;transition:.2s;white-space:nowrap}
 .bp{background:var(--p);color:#fff}
@@ -71,22 +62,22 @@ a{color:var(--p);text-decoration:none}
 .ph h3{font-size:22px;font-weight:700}
 .ph p{color:var(--m);font-size:13.5px;margin-top:2px}
 .hd{display:flex;gap:8px;flex-wrap:wrap}
-.gd{display:grid;gap:16px}
+  .gd{display:grid;gap:16px}
 .g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .cd{background:#fff;border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(15,23,42,.06);border:1px solid var(--b)}
-.sl{font-size:12.5px;color:var(--m);font-weight:600;text-transform:uppercase}
-.sv{font-size:30px;font-weight:700;margin-top:6px}
+.sl{font-size:12.5px;color:var(--m);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.sv{font-size:30px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
 .ss{font-size:12.5px;color:var(--m);margin-top:4px}
 .si{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px}
 .tw{overflow-x:auto;border-radius:14px;border:1px solid var(--b);background:#fff}
 table{width:100%;border-collapse:collapse;font-size:13.5px}
-thead th{text-align:left;padding:12px 14px;background:#f8fafc;font-weight:600;font-size:12px;text-transform:uppercase;color:#475569;border-bottom:1px solid var(--b);white-space:nowrap}
+thead th{text-align:left;padding:12px 14px;background:#f8fafc;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#475569;border-bottom:1px solid var(--b);white-space:nowrap}
 tbody td{padding:13px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover{background:#f8fafc}
-.pil{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;text-transform:uppercase}
+.pil{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
 .pg1{background:#dcfce7;color:#166534}
 .pa{background:#fef3c7;color:#92400e}
 .pr{background:#fee2e2;color:#991b1b}
@@ -105,6 +96,42 @@ tbody tr:hover{background:#f8fafc}
 .ab{flex:1}
 .at{font-weight:600;font-size:14px}
 .am{font-size:12px;color:var(--m);margin-top:2px}
+  .mb{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.mb.on{display:flex}
+.md{background:#fff;border-radius:18px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;box-shadow:0 10px 40px rgba(15,23,42,.12);animation:pop .2s ease}
+.mdl{max-width:880px}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.mh{padding:20px 24px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;border-radius:18px 18px 0 0;z-index:2}
+.mh h4{font-size:17px;font-weight:700}
+.mbd{padding:22px 24px}
+.mf{padding:16px 24px;border-top:1px solid var(--b);display:flex;justify-content:flex-end;gap:10px}
+.cx{font-size:20px;color:var(--m);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.cx:hover{background:#f1f5f9;color:var(--t)}
+.em{text-align:center;padding:48px 20px;color:var(--m)}
+.em .bg2{font-size:42px;margin-bottom:10px;opacity:.5}
+.ts{position:fixed;bottom:24px;right:24px;background:#0f172a;color:#fff;padding:13px 20px;border-radius:12px;font-size:14px;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,.15);transform:translateY(80px);opacity:0;transition:.3s;z-index:200}
+.ts.on{transform:none;opacity:1}
+.ts.ok{background:#065f46}
+.ts.er2{background:#991b1b}
+.sr{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--b);border-radius:10px;padding:9px 14px;max-width:340px;width:100%}
+.sr input{border:none;outline:none;flex:1;background:none;font-size:14px}
+.ft{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.ft select{padding:8px 12px;border:1.5px solid var(--b);border-radius:9px;background:#fff;font-size:13.5px}
+.mr{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:#fff;border:1px solid var(--b);margin-bottom:8px}
+.mr .info{flex:1}
+.mr .nm{font-weight:600;font-size:14px}
+.mr .em2{font-size:12.5px;color:var(--m)}
+.bc{background:var(--p);color:#fff;font-size:11px;padding:1px 7px;border-radius:20px;font-weight:700}
+@media(max-width:820px){
+.sb{position:fixed;bottom:0;left:0;right:0;width:100%;height:auto;flex-direction:row;border-right:none;border-top:1px solid var(--b);padding:8px;z-index:60;justify-content:space-around}
+.nv{flex-direction:column;gap:3px;font-size:11px;padding:8px 6px;text-align:center;flex:1;position:relative}
+.nv .ic{font-size:19px}
+.nv .bdg{position:absolute;top:2px;right:20%;margin:0;font-size:10px;padding:1px 5px}
+.mn{padding:16px;padding-bottom:90px}
+.tp{padding:10px 16px}
+.tp h2{font-size:14px}
+.g4{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
@@ -185,7 +212,6 @@ tbody tr:hover{background:#f8fafc}
 <aside class="sb">
 <button class="nv on" data-page="dashboard" onclick="showPage('dashboard')"><span class="ic">📊</span>Dashboard</button>
 <button class="nv" data-page="patients" onclick="showPage('patients')"><span class="ic">👥</span>Patients</button>
-<button class="nv" data-page="pose" onclick="showPage('pose')"><span class="ic">📹</span>Live Pose</button>
 <button class="nv" data-page="alerts" onclick="showPage('alerts')"><span class="ic">🚨</span>Alerts<span class="bdg" id="navAlertBadge" style="display:none">0</span></button>
 <button class="nv" data-page="sessions" onclick="showPage('sessions')"><span class="ic">📝</span>Sessions</button>
 <button class="nv" data-page="team" onclick="showPage('team')"><span class="ic">🤝</span>Team</button>
@@ -193,7 +219,8 @@ tbody tr:hover{background:#f8fafc}
 </aside>
 
 <main class="mn">
-  <section class="pg on" id="page-dashboard">
+
+<section class="pg on" id="page-dashboard">
 <div class="ph">
 <div><h3>Dashboard</h3><p>Overview of your caseload</p></div>
 <div class="hd">
@@ -243,64 +270,6 @@ tbody tr:hover{background:#f8fafc}
 <div><h3>Alerts</h3><p>Real-time clinical alerts</p></div>
 </div>
 <div id="alertsList"></div>
-</section>
-<section class="pg" id="page-pose">
-<div class="ph">
-<div><h3>Live Pose Analysis</h3><p>Real-time form feedback using on-device AI</p></div>
-<button class="btn bg bs" onclick="togglePoseHelp()">❓ How it works</button>
-</div>
-<div id="poseHelp" style="display:none;margin-bottom:16px" class="cd">
-<div style="font-size:13.5px;color:#475569;line-height:1.6">
-<strong>How it works:</strong> MediaPipe Pose detects 33 body landmarks per frame. We compute joint angles, count reps, and score form — all locally in your browser.<br/><br/>
-<strong>No video leaves your device.</strong><br/><br/>
-<strong>Tips:</strong> Stand 2–3 m back, full body visible, good lighting.
-</div>
-</div>
-<div class="pw">
-<div>
-<div class="vs">
-<video id="poseVideo" playsinline></video>
-<canvas class="oc" id="poseCanvas"></canvas>
-<div class="hud">
-<span class="hc" id="hudReps">Reps: 0</span>
-<span class="hc" id="hudQuality">Form: —</span>
-<span class="hc" id="hudExercise">Knee Extension</span>
-</div>
-</div>
-<div class="pc">
-<button class="btn bp" id="poseStartBtn" onclick="startPose()">▶ Start Camera</button>
-<button class="btn bg" id="poseStopBtn" onclick="stopPose()" disabled>■ Stop</button>
-<button class="btn bp" id="poseSaveBtn" onclick="savePoseSession()" disabled>💾 Save Session</button>
-</div>
-</div>
-<div>
-<div class="cd">
-<div style="font-size:13px;font-weight:700;margin-bottom:8px">Exercise Target</div>
-<div class="tsl" id="exerciseTargets">
-<button class="on" data-ex="Knee Extension" onclick="selectExercise(this)">Knee Ext</button>
-<button data-ex="Squat" onclick="selectExercise(this)">Squat</button>
-<button data-ex="Shoulder Flexion" onclick="selectExercise(this)">Shoulder</button>
-<button data-ex="Arm Raise" onclick="selectExercise(this)">Arm Raise</button>
-</div>
-<div style="font-size:13px;font-weight:700;margin:14px 0 8px">Patient</div>
-<select id="posePatient" style="width:100%;padding:9px 12px;border:1.5px solid var(--b);border-radius:9px;font-size:14px"></select>
-</div>
-<div class="cd" style="margin-top:14px">
-<div style="font-size:13px;font-weight:700;margin-bottom:10px">Live Metrics</div>
-<div class="pst">
-<div class="ps"><div class="l">Reps</div><div class="v" id="statReps">0</div></div>
-<div class="ps"><div class="l">Quality</div><div class="v" id="statQuality">—</div></div>
-<div class="ps"><div class="l">Angle</div><div class="v" id="statAngle">—°</div></div>
-<div class="ps"><div class="l">Range</div><div class="v" id="statRange" style="font-size:15px">—</div></div>
-</div>
-<div class="pf" id="poseFeedback">Click <strong>Start Camera</strong> to begin.</div>
-</div>
-<div class="cd" style="margin-top:14px">
-<div style="font-size:13px;font-weight:700;margin-bottom:8px">Rep Log</div>
-<div id="repLog" style="font-size:12.5px;color:var(--m);max-height:180px;overflow-y:auto">Reps appear here…</div>
-</div>
-</div>
-</div>
 </section>
 
 <section class="pg" id="page-sessions">
@@ -489,9 +458,9 @@ tbody tr:hover{background:#f8fafc}
 
 <div class="ts" id="toast"></div>
 <script>
-  window.addEventListener('error',function(e){var box=document.getElementById('errBox');if(!box){box=document.createElement('div');box.id='errBox';box.style.cssText='position:fixed;top:0;left:0;right:0;background:#dc2626;color:#fff;padding:12px;font-size:13px;z-index:9999;font-family:monospace;white-space:pre-wrap';document.body.prepend(box);}box.textContent='ERROR: '+e.message+' @ line '+e.lineno+':'+e.colno;});
-const DB={KEY:'physiotrack_v4',read(){try{return JSON.parse(localStorage.getItem(this.KEY))}catch(e){return null}},write(d){localStorage.setItem(this.KEY,JSON.stringify(d))},init(){let d=this.read();if(!d){d={users:[],patients:[],sessions:[],alerts:[],alertAcks:{},currentUser:null,team:[]};this.write(d)}return d},update(fn){const d=this.read();fn(d);this.write(d);return d}};
-const uid=function(){return Math.random().toString(36).slice(2,10)};
+window.addEventListener('error',function(e){var box=document.getElementById('errBox');if(!box){box=document.createElement('div');box.id='errBox';box.style.cssText='position:fixed;top:0;left:0;right:0;background:#dc2626;color:#fff;padding:12px;font-size:13px;z-index:9999;font-family:monospace;white-space:pre-wrap';document.body.prepend(box);}box.textContent='ERROR: '+e.message+' @ line '+e.lineno+':'+e.colno;});
+const DB={KEY:'physiotrack_v5',read:function(){try{return JSON.parse(localStorage.getItem(this.KEY))}catch(e){return null}},write:function(d){localStorage.setItem(this.KEY,JSON.stringify(d))},init:function(){var d=this.read();if(!d){d={users:[],patients:[],sessions:[],alerts:[],alertAcks:{},currentUser:null,team:[]};this.write(d)}return d},update:function(fn){var d=this.read();fn(d);this.write(d);return d}};
+function uid(){return Math.random().toString(36).slice(2,10)}
 function switchAuth(m){
 document.getElementById('tabL').classList.toggle('on',m==='login');
 document.getElementById('tabS').classList.toggle('on',m==='signup');
@@ -506,7 +475,8 @@ e.preventDefault();
 var em=document.getElementById('loginEmail').value.trim().toLowerCase();
 var pw=document.getElementById('loginPassword').value;
 var d=DB.read();
-var u=d.users.find(function(x){return x.email.toLowerCase()===em&&x.password===pw});
+var u=null;
+for(var i=0;i<d.users.length;i++){if(d.users[i].email.toLowerCase()===em&&d.users[i].password===pw){u=d.users[i];break}}
 if(!u){showErr('Invalid email or password.');return}
 d.currentUser={id:u.id,name:u.name,email:u.email,role:u.role,clinic:u.clinic};
 DB.write(d);
@@ -521,7 +491,7 @@ var role=document.getElementById('suRole').value;
 var clinic=document.getElementById('suClinic').value.trim();
 if(pw.length<6){showErr('Password must be at least 6 characters.');return}
 var d=DB.read();
-if(d.users.some(function(u){return u.email.toLowerCase()===email})){showErr('Email already registered on this device.');return}
+for(var i=0;i<d.users.length;i++){if(d.users[i].email.toLowerCase()===email){showErr('Email already registered on this device.');return}}
 var nu={id:uid(),name:name,email:email,password:pw,role:role,clinic:clinic};
 d.users.push(nu);
 d.currentUser={id:nu.id,name:name,email:email,role:role,clinic:clinic};
@@ -547,18 +517,18 @@ refreshAll();
 showPage('dashboard');
 }
 function showPage(p){
-document.querySelectorAll('.pg').forEach(function(x){x.classList.remove('on')});
+var pages=document.querySelectorAll('.pg');
+for(var i=0;i<pages.length;i++)pages[i].classList.remove('on');
 var pg=document.getElementById('page-'+p);
 if(pg)pg.classList.add('on');
-document.querySelectorAll('.nv').forEach(function(n){n.classList.toggle('on',n.dataset.page===p)});
+var nvs=document.querySelectorAll('.nv');
+for(var j=0;j<nvs.length;j++){if(nvs[j].dataset.page===p)nvs[j].classList.add('on');else nvs[j].classList.remove('on')}
 if(p==='dashboard')renderDashboard();
 if(p==='patients')renderPatients();
-if(p==='pose')populatePosePatientSelect();
 if(p==='alerts')renderAlerts();
 if(p==='sessions')renderSessions();
 if(p==='team')renderTeam();
 if(p==='settings')renderSettings();
-if(p!=='pose')stopPose();
 }
 function refreshAll(){
 computeAlerts();
@@ -584,16 +554,22 @@ e._t=setTimeout(function(){e.classList.remove('on')},2500);
 }
 function openModal(id){document.getElementById(id).classList.add('on')}
 function closeModal(id){document.getElementById(id).classList.remove('on')}
-function patientMetrics(p,sessions){
-var ps=sessions.filter(function(s){return s.patientId===p.id}).sort(function(a,b){return a.date.localeCompare(b.date)});
+  function patientMetrics(p,sessions){
+var ps=[];
+for(var i=0;i<sessions.length;i++){if(sessions[i].patientId===p.id)ps.push(sessions[i])}
+ps.sort(function(a,b){return a.date.localeCompare(b.date)});
 var now=new Date().toISOString().slice(0,10);
-var last7=ps.filter(function(s){return daysBetween(s.date,now)<=7});
-var prev7=ps.filter(function(s){var d=daysBetween(s.date,now);return d>7&&d<=14});
+var last7=[],prev7=[];
+for(var j=0;j<ps.length;j++){
+var dg=daysBetween(ps[j].date,now);
+if(dg<=7)last7.push(ps[j]);
+else if(dg>7&&dg<=14)prev7.push(ps[j]);
+}
 var adherence=Math.min(100,Math.round((last7.length/Math.max(1,p.freq))*100));
-var avg=function(arr){return arr.length?arr.reduce(function(a,s){return a+s.quality},0)/arr.length:0};
+function avg(arr){if(!arr.length)return 0;var s=0;for(var k=0;k<arr.length;k++)s+=arr[k].quality;return s/arr.length}
+function romAvg(arr){if(!arr.length)return 0;var s=0;for(var k=0;k<arr.length;k++)s+=arr[k].rom;return s/arr.length}
 var q7=avg(last7),qPrev=avg(prev7);
 var delta=qPrev?((q7-qPrev)/qPrev)*100:0;
-var romAvg=function(arr){return arr.length?arr.reduce(function(a,s){return a+s.rom},0)/arr.length:0};
 var rom7=romAvg(last7),romPrev=romAvg(prev7);
 var romDelta=romPrev?((rom7-romPrev)/romPrev)*100:0;
 var status='On Track';
@@ -606,41 +582,59 @@ var lastSession=ps.length?ps[ps.length-1].date:null;
 var recent=ps.slice(-5,-1);
 var recentAvgQ=avg(recent);
 var latestQ=ps.length?ps[ps.length-1].quality:0;
-return {sessions:ps,adherence:adherence,q7:q7,delta:delta,status:status,latestRom:latestRom,romPct:romPct,lastSession:lastSession,recentAvgQ:recentAvgQ,latestQ:latestQ};
+return {sessions:ps,adherence:adherence,q7:q7,status:status,latestRom:latestRom,romPct:romPct,lastSession:lastSession,recentAvgQ:recentAvgQ,latestQ:latestQ};
 }
 function computeAlerts(){
 var d=DB.read();
 var now=new Date().toISOString().slice(0,10);
 var alerts=[];
-d.patients.forEach(function(p){
+for(var i=0;i<d.patients.length;i++){
+var p=d.patients[i];
 var m=patientMetrics(p,d.sessions);
 var s=m.sessions;
-if(!s.length)return;
+if(!s.length)continue;
 var L=s[s.length-1];
 var age=daysBetween(L.date,now);
 if(m.adherence<60&&age<=14)alerts.push({id:'adh-'+p.id,patientId:p.id,severity:m.adherence<40?'High':'Medium',title:'Low adherence: '+m.adherence+'%',meta:p.name+' · last '+L.date,action:'Contact patient'});
 if(m.recentAvgQ>0&&(m.recentAvgQ-m.latestQ)/m.recentAvgQ>0.20)alerts.push({id:'drop-'+p.id+'-'+L.id,patientId:p.id,severity:'Critical',title:'Sudden quality drop: '+Math.round(m.latestQ)+' vs avg '+Math.round(m.recentAvgQ),meta:p.name+' · '+L.date,action:'Review session'});
-if(s.length>=4){var l4=s.slice(-4);if(l4[0].quality>l4[1].quality&&l4[1].quality>l4[2].quality&&l4[2].quality>l4[3].quality)alerts.push({id:'reg-'+p.id,patientId:p.id,severity:'High',title:'Quality declining 3 sessions in a row',meta:p.name+' · '+L.date,action:'Re-evaluate protocol'})}
+if(s.length>=4){
+var l4=s.slice(-4);
+if(l4[0].quality>l4[1].quality&&l4[1].quality>l4[2].quality&&l4[2].quality>l4[3].quality)
+alerts.push({id:'reg-'+p.id,patientId:p.id,severity:'High',title:'Quality declining 3 sessions in a row',meta:p.name+' · '+L.date,action:'Re-evaluate protocol'});
+}
 if(L.painPost-L.painPre>=3||L.painPost>=7)alerts.push({id:'pain-'+p.id+'-'+L.id,patientId:p.id,severity:'High',title:'Pain spike: '+L.painPre+'→'+L.painPost,meta:p.name+' · '+L.date,action:'Adjust load'});
 if(m.romPct>=100&&s.length>=3)alerts.push({id:'mile-'+p.id,patientId:p.id,severity:'Low',title:'Target ROM reached ('+m.latestRom+'°)',meta:p.name+' · '+L.date,action:'Advance phase'});
 if(age>10)alerts.push({id:'inact-'+p.id,patientId:p.id,severity:'Medium',title:'No sessions in '+age+' days',meta:p.name+' · last '+L.date,action:'Follow up'});
-});
+}
 var o={Critical:0,High:1,Medium:2,Low:3};
 alerts.sort(function(a,b){return o[a.severity]-o[b.severity]});
 DB.update(function(dd){dd.alerts=alerts});
 return alerts;
 }
 function ackAlert(id){DB.update(function(d){d.alertAcks[id]=true});renderAlerts();renderDashboard();updateBell();toast('Alert acknowledged','ok')}
-function activeAlerts(){var d=DB.read();return (d.alerts||[]).filter(function(a){return !d.alertAcks[a.id]})}
-function updateBell(){var n=activeAlerts().length;var b=document.getElementById('navAlertBadge');if(n>0){b.textContent=n;b.style.display='inline-block'}else{b.style.display='none'}}
+function activeAlerts(){
+var d=DB.read();
+var out=[];
+var a=d.alerts||[];
+for(var i=0;i<a.length;i++){if(!d.alertAcks[a[i].id])out.push(a[i])}
+return out;
+}
+function updateBell(){
+var n=activeAlerts().length;
+var b=document.getElementById('navAlertBadge');
+if(n>0){b.textContent=n;b.style.display='inline-block'}else{b.style.display='none'}
+}
 function renderDashboard(){
 var d=DB.read();
 var alerts=activeAlerts();
 var now=new Date().toISOString().slice(0,10);
 var total=d.patients.length;
-var imp=d.patients.filter(function(p){return patientMetrics(p,d.sessions).status==='Improving'}).length;
-var wk=d.sessions.filter(function(s){return daysBetween(s.date,now)<=7}).length;
-var crit=alerts.filter(function(a){return a.severity==='Critical'}).length;
+var imp=0;
+for(var i=0;i<d.patients.length;i++){if(patientMetrics(d.patients[i],d.sessions).status==='Improving')imp++}
+var wk=0;
+for(var j=0;j<d.sessions.length;j++){if(daysBetween(d.sessions[j].date,now)<=7)wk++}
+var crit=0;
+for(var k=0;k<alerts.length;k++){if(alerts[k].severity==='Critical')crit++}
 document.getElementById('statCards').innerHTML='<div class="cd"><div class="si" style="background:#ccfbf1;color:#0f766e">👥</div><div class="sl">Patients</div><div class="sv">'+total+'</div><div class="ss">Under your care</div></div><div class="cd"><div class="si" style="background:#dcfce7;color:#166534">📈</div><div class="sl">Improving</div><div class="sv">'+imp+'</div><div class="ss">Positive trend</div></div><div class="cd"><div class="si" style="background:#dbeafe;color:#1e40af">📝</div><div class="sl">Sessions (7d)</div><div class="sv">'+wk+'</div><div class="ss">All patients</div></div><div class="cd"><div class="si" style="background:'+(crit?'#fee2e2':'#f1f5f9')+';color:'+(crit?'#dc2626':'#475569')+'">🚨</div><div class="sl">Alerts</div><div class="sv">'+alerts.length+'</div><div class="ss">'+crit+' critical</div></div>';
 renderChart();
 renderDashAlerts();
@@ -651,9 +645,13 @@ var labels=[],data=[];
 for(var w=7;w>=0;w--){
 var st=new Date();st.setDate(st.getDate()-(w+1)*7);
 var en=new Date();en.setDate(en.getDate()-w*7);
-var sIn=d.sessions.filter(function(s){var sd=new Date(s.date+'T00:00:00');return sd>=st&&sd<en});
+var sum=0,cnt=0;
+for(var i=0;i<d.sessions.length;i++){
+var sd=new Date(d.sessions[i].date+'T00:00:00');
+if(sd>=st&&sd<en){sum+=d.sessions[i].quality;cnt++}
+}
 labels.push('W-'+w);
-data.push(sIn.length?Math.round(sIn.reduce(function(a,s){return a+s.quality},0)/sIn.length):null);
+data.push(cnt?Math.round(sum/cnt):null);
 }
 var ctx=document.getElementById('cohortChart');
 if(!ctx)return;
@@ -664,32 +662,47 @@ function renderDashAlerts(){
 var a=activeAlerts().slice(0,5);
 var el=document.getElementById('dashAlerts');
 if(!a.length){el.innerHTML='<div class="em" style="padding:20px"><div class="bg2">✅</div>No active alerts</div>';return}
-el.innerHTML=a.map(function(x){return '<div class="ai '+(x.severity==='Critical'?'ac1':x.severity==='High'?'ac2':'ac3')+'"><div class="ab"><div class="at">'+esc(x.title)+'</div><div class="am">'+esc(x.meta)+' · <strong>'+x.severity+'</strong></div></div><button class="btn bg bs" onclick="ackAlert(\''+x.id+'\')">Ack</button></div>'}).join('');
+var html='';
+for(var i=0;i<a.length;i++){
+var x=a[i];
+var cls=x.severity==='Critical'?'ac1':x.severity==='High'?'ac2':'ac3';
+html+='<div class="ai '+cls+'"><div class="ab"><div class="at">'+esc(x.title)+'</div><div class="am">'+esc(x.meta)+' · <strong>'+x.severity+'</strong></div></div><button class="btn bg bs" onclick="ackAlert(\''+x.id+'\')">Ack</button></div>';
 }
-  function renderPatients(){
+el.innerHTML=html;
+}
+function renderPatients(){
 var d=DB.read();
 var q=(document.getElementById('patientSearch').value||'').toLowerCase();
 var fs=document.getElementById('filterStatus').value;
-var list=d.patients.map(function(p){return {p:p,m:patientMetrics(p,d.sessions)}});
-if(q)list=list.filter(function(x){return x.p.name.toLowerCase().indexOf(q)>-1||x.p.condition.toLowerCase().indexOf(q)>-1});
-if(fs)list=list.filter(function(x){return x.m.status===fs});
+var list=[];
+for(var i=0;i<d.patients.length;i++){
+var p=d.patients[i];
+var m=patientMetrics(p,d.sessions);
+if(q&&p.name.toLowerCase().indexOf(q)===-1&&p.condition.toLowerCase().indexOf(q)===-1)continue;
+if(fs&&m.status!==fs)continue;
+list.push({p:p,m:m});
+}
 var tb=document.getElementById('patientTable');
 var em=document.getElementById('patientEmpty');
 document.getElementById('patientCount').textContent=d.patients.length+' patient'+(d.patients.length===1?'':'s');
 if(!list.length){tb.innerHTML='';em.innerHTML='<div class="em"><div class="bg2">👥</div><div style="font-weight:600">No patients yet</div><div style="font-size:13px">Tap + Add Patient to start.</div></div>';return}
 em.innerHTML='';
-tb.innerHTML=list.map(function(x){
-var p=x.p,m=x.m;
+var html='';
+for(var j=0;j<list.length;j++){
+var p=list[j].p,m=list[j].m;
 var sp=m.status==='Improving'?'pg1':m.status==='Regressing'?'pr':m.status==='Plateau'?'pa':'pb';
 var ap=m.adherence>=80?'pg1':m.adherence>=60?'pa':'pr';
-return '<tr><td><div class="rw"><div class="av" style="background:'+colorFor(p.name)+'">'+initials(p.name)+'</div><div><div style="font-weight:600">'+esc(p.name)+'</div><div style="font-size:12px;color:var(--m)">'+(p.age?p.age+' yrs':p.phase.split('—')[0].trim())+'</div></div></div></td><td>'+esc(p.condition)+'</td><td style="font-size:12.5px;color:var(--m)">'+esc(p.phase)+'</td><td><span class="pil '+ap+'">'+m.adherence+'%</span></td><td><span class="pil '+sp+'">'+m.status+'</span></td><td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:6px;background:#f1f5f9;border-radius:3px;min-width:50px;overflow:hidden"><div style="height:100%;width:'+m.romPct+'%;background:#0f766e;border-radius:3px"></div></div><span style="font-size:12px;color:var(--m)">'+m.romPct+'%</span></div></td><td style="font-size:12.5px;color:var(--m)">'+(m.lastSession?fmtDate(m.lastSession):'—')+'</td><td><div class="ra"><button class="ib" onclick="viewPatient(\''+p.id+'\')">👁</button><button class="ib" onclick="openPatientModal(\''+p.id+'\')">✎</button><button class="ib dg" onclick="deletePatient(\''+p.id+'\')">🗑</button></div></td></tr>';
-}).join('');
+html+='<tr><td><div class="rw"><div class="av" style="background:'+colorFor(p.name)+'">'+initials(p.name)+'</div><div><div style="font-weight:600">'+esc(p.name)+'</div><div style="font-size:12px;color:var(--m)">'+(p.age?p.age+' yrs':esc(p.phase.split('—')[0].trim()))+'</div></div></div></td><td>'+esc(p.condition)+'</td><td style="font-size:12.5px;color:var(--m)">'+esc(p.phase)+'</td><td><span class="pil '+ap+'">'+m.adherence+'%</span></td><td><span class="pil '+sp+'">'+m.status+'</span></td><td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:6px;background:#f1f5f9;border-radius:3px;min-width:50px;overflow:hidden"><div style="height:100%;width:'+m.romPct+'%;background:#0f766e;border-radius:3px"></div></div><span style="font-size:12px;color:var(--m)">'+m.romPct+'%</span></div></td><td style="font-size:12.5px;color:var(--m)">'+(m.lastSession?fmtDate(m.lastSession):'—')+'</td><td><div class="ra"><button class="ib" onclick="viewPatient(\''+p.id+'\')">👁</button><button class="ib" onclick="openPatientModal(\''+p.id+'\')">✎</button><button class="ib dg" onclick="deletePatient(\''+p.id+'\')">🗑</button></div></td></tr>';
+}
+tb.innerHTML=html;
 }
 function openPatientModal(id){
 var d=DB.read();
 document.getElementById('patientModalTitle').textContent=id?'Edit Patient':'Add Patient';
 if(id){
-var p=d.patients.find(function(x){return x.id===id});if(!p)return;
+var p=null;
+for(var i=0;i<d.patients.length;i++){if(d.patients[i].id===id){p=d.patients[i];break}}
+if(!p)return;
 document.getElementById('pEditId').value=p.id;
 document.getElementById('pName').value=p.name;
 document.getElementById('pAge').value=p.age||'';
@@ -701,7 +714,11 @@ document.getElementById('pCaregiver').value=p.caregiver||'';
 document.getElementById('pNotes').value=p.notes||'';
 }else{
 document.getElementById('pEditId').value='';
-['pName','pAge','pCondition','pCaregiver','pNotes'].forEach(function(f){document.getElementById(f).value=''});
+document.getElementById('pName').value='';
+document.getElementById('pAge').value='';
+document.getElementById('pCondition').value='';
+document.getElementById('pCaregiver').value='';
+document.getElementById('pNotes').value='';
 document.getElementById('pPhase').value='Phase 2 — Intermediate';
 document.getElementById('pFreq').value=3;
 document.getElementById('pTarget').value=130;
@@ -715,7 +732,7 @@ var condition=document.getElementById('pCondition').value.trim();
 if(!name||!condition){toast('Name and condition required','er2');return}
 var payload={name:name,age:parseInt(document.getElementById('pAge').value)||null,condition:condition,phase:document.getElementById('pPhase').value,freq:parseInt(document.getElementById('pFreq').value)||3,target:parseInt(document.getElementById('pTarget').value)||130,caregiver:document.getElementById('pCaregiver').value.trim(),notes:document.getElementById('pNotes').value.trim()};
 DB.update(function(d){
-if(id){var p=d.patients.find(function(x){return x.id===id});if(p)for(var k in payload)p[k]=payload[k]}
+if(id){for(var i=0;i<d.patients.length;i++){if(d.patients[i].id===id){for(var k in payload)d.patients[i][k]=payload[k];break}}}
 else{payload.id=uid();payload.created=new Date().toISOString().slice(0,10);payload.shared=false;d.patients.push(payload)}
 });
 closeModal('patientModal');
@@ -724,86 +741,40 @@ toast(id?'Patient updated':'Patient added','ok');
 }
 function deletePatient(id){
 var d=DB.read();
-var p=d.patients.find(function(x){return x.id===id});
+var p=null;
+for(var i=0;i<d.patients.length;i++){if(d.patients[i].id===id){p=d.patients[i];break}}
 if(!p)return;
 if(!confirm('Delete '+p.name+' and all sessions?'))return;
 DB.update(function(dd){
-dd.patients=dd.patients.filter(function(x){return x.id!==id});
-dd.sessions=dd.sessions.filter(function(s){return s.patientId!==id});
+var np=[],ns=[];
+for(var i=0;i<dd.patients.length;i++){if(dd.patients[i].id!==id)np.push(dd.patients[i])}
+for(var j=0;j<dd.sessions.length;j++){if(dd.sessions[j].patientId!==id)ns.push(dd.sessions[j])}
+dd.patients=np;dd.sessions=ns;
 });
 refreshAll();
 toast('Patient deleted','ok');
-}
-var _curPid=null;
-function viewPatient(id){
-_curPid=id;window._currentPatientId=id;
-var d=DB.read();
-var p=d.patients.find(function(x){return x.id===id});
-if(!p)return;
-var m=patientMetrics(p,d.sessions);
-var alertRows=activeAlerts().filter(function(a){return a.patientId===id});
-document.getElementById('detailTitle').textContent=p.name;
-var html='<div style="display:flex;align-items:center;gap:16px;margin-bottom:22px;flex-wrap:wrap">';
-html+='<div class="av" style="width:64px;height:64px;font-size:24px;background:'+colorFor(p.name)+'">'+initials(p.name)+'</div>';
-html+='<div style="flex:1"><h3 style="font-size:22px;font-weight:700">'+esc(p.name)+'</h3>';
-html+='<div style="color:var(--m);font-size:13.5px">'+(p.age?p.age+' yrs · ':'')+esc(p.condition)+' · '+esc(p.phase)+'</div></div>';
-html+='<span class="pil '+(m.status==='Improving'?'pg1':m.status==='Regressing'?'pr':m.status==='Plateau'?'pa':'pb')+'">'+m.status+'</span></div>';
-html+='<div class="gd g4" style="margin-bottom:18px">';
-html+='<div class="cd" style="padding:14px"><div class="sl">Adherence</div><div class="sv" style="font-size:22px">'+m.adherence+'%</div></div>';
-html+='<div class="cd" style="padding:14px"><div class="sl">Avg Quality</div><div class="sv" style="font-size:22px">'+Math.round(m.q7)+'</div></div>';
-html+='<div class="cd" style="padding:14px"><div class="sl">ROM %</div><div class="sv" style="font-size:22px">'+m.romPct+'%</div></div>';
-html+='<div class="cd" style="padding:14px"><div class="sl">Sessions</div><div class="sv" style="font-size:22px">'+m.sessions.length+'</div></div></div>';
-html+='<div class="cd" style="margin-bottom:18px"><h4 style="font-size:15px;font-weight:700;margin-bottom:14px">Quality & ROM Trend</h4><div style="position:relative;height:240px"><canvas id="detailChart"></canvas></div></div>';
-if(alertRows.length){html+='<h4 style="font-size:14px;font-weight:700;margin-bottom:10px">Active Alerts</h4>';alertRows.forEach(function(a){html+='<div class="ai '+(a.severity==='Critical'?'ac1':a.severity==='High'?'ac2':'ac3')+'"><div class="ab"><div class="at">'+esc(a.title)+'</div><div class="am">'+esc(a.action)+'</div></div></div>'})}else{html+='<div class="cd" style="padding:14px;background:#f0fdf4;color:#166534;font-size:13.5px">✅ No active alerts</div>'}
-html+='<h4 style="font-size:14px;font-weight:700;margin:18px 0 10px">Session History</h4>';
-html+='<div class="tw"><table><thead><tr><th>Date</th><th>Exercise</th><th>Reps</th><th>Quality</th><th>ROM°</th><th>Pain</th></tr></thead><tbody>';
-if(m.sessions.length){m.sessions.slice().reverse().forEach(function(s){html+='<tr><td>'+fmtDate(s.date)+'</td><td>'+esc(s.exercise)+'</td><td>'+s.reps+'</td><td>'+s.quality+'</td><td>'+s.rom+'</td><td>'+s.painPre+'→'+s.painPost+'</td></tr>'})}else{html+='<tr><td colspan="6" style="text-align:center;color:var(--m);padding:20px">No sessions yet</td></tr>'}
-html+='</tbody></table></div>';
-html+='<div style="margin-top:18px;padding:14px;background:#f8fafc;border-radius:10px;font-size:13px;color:#475569">';
-html+='<strong>Notes:</strong> '+esc(p.notes||'None')+'<br/><strong>Prescribed:</strong> '+p.freq+' sessions/week · Target ROM '+p.target+'°';
-if(p.caregiver)html+='<br/><strong>Caregiver:</strong> '+esc(p.caregiver);
-html+='</div>';
-document.getElementById('detailBody').innerHTML=html;
-openModal('detailModal');
-setTimeout(function(){
-var ctx=document.getElementById('detailChart');if(!ctx)return;
-if(window._dc)window._dc.destroy();
-window._dc=new Chart(ctx,{type:'line',data:{labels:m.sessions.map(function(s){return fmtDate(s.date).replace(/,.*/,'')}),datasets:[{label:'Quality',data:m.sessions.map(function(s){return s.quality}),borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,.1)',tension:.35,fill:true,yAxisID:'y',pointRadius:3},{label:'ROM',data:m.sessions.map(function(s){return s.rom}),borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,.1)',tension:.35,fill:false,yAxisID:'y1',pointRadius:3,borderDash:[5,3]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',beginAtZero:true,max:100,grid:{color:'#f1f5f9'}},y1:{position:'right',beginAtZero:true,grid:{display:false}},x:{grid:{display:false}}}}});
-},50);
-}
-function renderAlerts(){
-var alerts=activeAlerts();
-var el=document.getElementById('alertsList');
-if(!alerts.length){el.innerHTML='<div class="em"><div class="bg2">✅</div><div style="font-weight:600">All clear</div><div style="font-size:13px">No active alerts.</div></div>';updateBell();return}
-var groups={Critical:[],High:[],Medium:[],Low:[]};
-alerts.forEach(function(a){groups[a.severity].push(a)});
-var html='';
-Object.keys(groups).forEach(function(sev){
-if(!groups[sev].length)return;
-html+='<div style="margin-bottom:18px"><h4 style="font-size:12.5px;font-weight:700;text-transform:uppercase;color:var(--m);margin-bottom:8px">'+sev+' · '+groups[sev].length+'</h4>';
-groups[sev].forEach(function(a){
-var p=DB.read().patients.find(function(x){return x.id===a.patientId});
-html+='<div class="ai '+(a.severity==='Critical'?'ac1':a.severity==='High'?'ac2':'ac3')+'"><div class="ab"><div class="at">'+esc(a.title)+'</div><div class="am">'+esc(a.meta)+' · <em>'+esc(a.action)+'</em></div>'+(p?'<button class="btn bg bs" style="margin-top:8px" onclick="viewPatient(\''+p.id+'\')">View</button>':'')+'</div><button class="btn bp bs" onclick="ackAlert(\''+a.id+'\')">Ack</button></div>';
-});
-html+='</div>';
-});
-el.innerHTML=html;
-updateBell();
 }
 function renderSessions(){
 var d=DB.read();
 var tb=document.getElementById('sessionTable');
 var list=d.sessions.slice().sort(function(a,b){return b.date.localeCompare(a.date)});
 if(!list.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--m);padding:30px">No sessions yet</td></tr>';return}
-tb.innerHTML=list.map(function(s){
-var p=d.patients.find(function(x){return x.id===s.patientId});
-return '<tr><td>'+fmtDate(s.date)+'</td><td>'+(p?esc(p.name):'—')+'</td><td>'+esc(s.exercise)+'</td><td>'+s.reps+'</td><td><span class="pil '+(s.quality>=80?'pg1':s.quality>=60?'pa':'pr')+'">'+s.quality+'</span></td><td>'+s.rom+'</td><td>'+s.painPre+'→'+s.painPost+'</td><td><div class="ra"><button class="ib dg" onclick="deleteSession(\''+s.id+'\')">🗑</button></div></td></tr>';
-}).join('');
+var html='';
+for(var i=0;i<list.length;i++){
+var s=list[i];
+var p=null;
+for(var j=0;j<d.patients.length;j++){if(d.patients[j].id===s.patientId){p=d.patients[j];break}}
+var qc=s.quality>=80?'pg1':s.quality>=60?'pa':'pr';
+html+='<tr><td>'+fmtDate(s.date)+'</td><td>'+(p?esc(p.name):'—')+'</td><td>'+esc(s.exercise)+'</td><td>'+s.reps+'</td><td><span class="pil '+qc+'">'+s.quality+'</span></td><td>'+s.rom+'</td><td>'+s.painPre+'→'+s.painPost+'</td><td><div class="ra"><button class="ib dg" onclick="deleteSession(\''+s.id+'\')">🗑</button></div></td></tr>';
+}
+tb.innerHTML=html;
 }
 function openSessionModal(){
 var d=DB.read();
 if(!d.patients.length){toast('Add a patient first','er2');return}
-document.getElementById('sPatient').innerHTML=d.patients.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join('');
+var opts='';
+for(var i=0;i<d.patients.length;i++){opts+='<option value="'+d.patients[i].id+'">'+esc(d.patients[i].name)+'</option>'}
+document.getElementById('sPatient').innerHTML=opts;
 document.getElementById('sDate').value=new Date().toISOString().slice(0,10);
 openModal('sessionModal');
 }
@@ -818,23 +789,131 @@ toast('Session logged','ok');
 }
 function deleteSession(id){
 if(!confirm('Delete this session?'))return;
-DB.update(function(d){d.sessions=d.sessions.filter(function(s){return s.id!==id})});
+DB.update(function(d){var ns=[];for(var i=0;i<d.sessions.length;i++){if(d.sessions[i].id!==id)ns.push(d.sessions[i])}d.sessions=ns});
 refreshAll();
 toast('Session deleted','ok');
+}
+function renderAlerts(){
+var alerts=activeAlerts();
+var el=document.getElementById('alertsList');
+if(!alerts.length){el.innerHTML='<div class="em"><div class="bg2">✅</div><div style="font-weight:600">All clear</div><div style="font-size:13px">No active alerts.</div></div>';updateBell();return}
+var groups={Critical:[],High:[],Medium:[],Low:[]};
+for(var i=0;i<alerts.length;i++){groups[alerts[i].severity].push(alerts[i])}
+var html='';
+var keys=['Critical','High','Medium','Low'];
+for(var g=0;g<keys.length;g++){
+var sev=keys[g];
+if(!groups[sev].length)continue;
+html+='<div style="margin-bottom:18px"><h4 style="font-size:12.5px;font-weight:700;text-transform:uppercase;color:var(--m);margin-bottom:8px">'+sev+' · '+groups[sev].length+'</h4>';
+for(var k=0;k<groups[sev].length;k++){
+var a=groups[sev][k];
+var cls=a.severity==='Critical'?'ac1':a.severity==='High'?'ac2':'ac3';
+var p=null;
+var d=DB.read();
+for(var j=0;j<d.patients.length;j++){if(d.patients[j].id===a.patientId){p=d.patients[j];break}}
+html+='<div class="ai '+cls+'"><div class="ab"><div class="at">'+esc(a.title)+'</div><div class="am">'+esc(a.meta)+' · <em>'+esc(a.action)+'</em></div>'+(p?'<button class="btn bg bs" style="margin-top:8px" onclick="viewPatient(\''+p.id+'\')">View</button>':'')+'</div><button class="btn bp bs" onclick="ackAlert(\''+a.id+'\')">Ack</button></div>';
+}
+html+='</div>';
+}
+el.innerHTML=html;
+updateBell();
+  }
+  var _curPid=null;
+function viewPatient(id){
+_curPid=id;window._currentPatientId=id;
+var d=DB.read();
+var p=null;
+for(var i=0;i<d.patients.length;i++){if(d.patients[i].id===id){p=d.patients[i];break}}
+if(!p)return;
+var m=patientMetrics(p,d.sessions);
+var alertRows=[];
+var aa=activeAlerts();
+for(var j=0;j<aa.length;j++){if(aa[j].patientId===id)alertRows.push(aa[j])}
+document.getElementById('detailTitle').textContent=p.name;
+var html='<div style="display:flex;align-items:center;gap:16px;margin-bottom:22px;flex-wrap:wrap">';
+html+='<div class="av" style="width:64px;height:64px;font-size:24px;background:'+colorFor(p.name)+'">'+initials(p.name)+'</div>';
+html+='<div style="flex:1"><h3 style="font-size:22px;font-weight:700">'+esc(p.name)+'</h3>';
+html+='<div style="color:var(--m);font-size:13.5px">'+(p.age?p.age+' yrs · ':'')+esc(p.condition)+' · '+esc(p.phase)+'</div></div>';
+html+='<span class="pil '+(m.status==='Improving'?'pg1':m.status==='Regressing'?'pr':m.status==='Plateau'?'pa':'pb')+'">'+m.status+'</span></div>';
+html+='<div class="gd g4" style="margin-bottom:18px">';
+html+='<div class="cd" style="padding:14px"><div class="sl">Adherence</div><div class="sv" style="font-size:22px">'+m.adherence+'%</div></div>';
+html+='<div class="cd" style="padding:14px"><div class="sl">Avg Quality</div><div class="sv" style="font-size:22px">'+Math.round(m.q7)+'</div></div>';
+html+='<div class="cd" style="padding:14px"><div class="sl">ROM %</div><div class="sv" style="font-size:22px">'+m.romPct+'%</div></div>';
+html+='<div class="cd" style="padding:14px"><div class="sl">Sessions</div><div class="sv" style="font-size:22px">'+m.sessions.length+'</div></div></div>';
+html+='<div class="cd" style="margin-bottom:18px"><h4 style="font-size:15px;font-weight:700;margin-bottom:14px">Quality & ROM Trend</h4><div style="position:relative;height:240px"><canvas id="detailChart"></canvas></div></div>';
+if(alertRows.length){
+html+='<h4 style="font-size:14px;font-weight:700;margin-bottom:10px">Active Alerts</h4>';
+for(var k=0;k<alertRows.length;k++){
+var a=alertRows[k];
+var cls=a.severity==='Critical'?'ac1':a.severity==='High'?'ac2':'ac3';
+html+='<div class="ai '+cls+'"><div class="ab"><div class="at">'+esc(a.title)+'</div><div class="am">'+esc(a.action)+'</div></div></div>';
+}
+}else{
+html+='<div class="cd" style="padding:14px;background:#f0fdf4;color:#166534;font-size:13.5px">✅ No active alerts</div>';
+}
+html+='<h4 style="font-size:14px;font-weight:700;margin:18px 0 10px">Session History</h4>';
+html+='<div class="tw"><table><thead><tr><th>Date</th><th>Exercise</th><th>Reps</th><th>Quality</th><th>ROM°</th><th>Pain</th></tr></thead><tbody>';
+if(m.sessions.length){
+var rev=m.sessions.slice().reverse();
+for(var x=0;x<rev.length;x++){
+var s=rev[x];
+html+='<tr><td>'+fmtDate(s.date)+'</td><td>'+esc(s.exercise)+'</td><td>'+s.reps+'</td><td>'+s.quality+'</td><td>'+s.rom+'</td><td>'+s.painPre+'→'+s.painPost+'</td></tr>';
+}
+}else{
+html+='<tr><td colspan="6" style="text-align:center;color:var(--m);padding:20px">No sessions yet</td></tr>';
+}
+html+='</tbody></table></div>';
+html+='<div style="margin-top:18px;padding:14px;background:#f8fafc;border-radius:10px;font-size:13px;color:#475569">';
+html+='<strong>Notes:</strong> '+esc(p.notes||'None')+'<br/><strong>Prescribed:</strong> '+p.freq+' sessions/week · Target ROM '+p.target+'°';
+if(p.caregiver)html+='<br/><strong>Caregiver:</strong> '+esc(p.caregiver);
+html+='</div>';
+document.getElementById('detailBody').innerHTML=html;
+openModal('detailModal');
+setTimeout(function(){
+var ctx=document.getElementById('detailChart');
+if(!ctx)return;
+if(window._dc)window._dc.destroy();
+var labels=[],qData=[],rData=[];
+for(var i=0;i<m.sessions.length;i++){
+labels.push(fmtDate(m.sessions[i].date).replace(/,.*/,''));
+qData.push(m.sessions[i].quality);
+rData.push(m.sessions[i].rom);
+}
+window._dc=new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{label:'Quality',data:qData,borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,.1)',tension:.35,fill:true,yAxisID:'y',pointRadius:3},{label:'ROM',data:rData,borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,.1)',tension:.35,fill:false,yAxisID:'y1',pointRadius:3,borderDash:[5,3]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',beginAtZero:true,max:100,grid:{color:'#f1f5f9'}},y1:{position:'right',beginAtZero:true,grid:{display:false}},x:{grid:{display:false}}}}});
+},50);
 }
 function renderTeam(){
 var d=DB.read();
 var members=d.team||[];
 document.getElementById('memberCount').textContent=members.length;
 var ml=document.getElementById('memberList');
-if(!members.length){ml.innerHTML='<div class="em" style="padding:20px"><div class="bg2">🤝</div>No team members yet.</div>'}
-else{ml.innerHTML=members.map(function(m){return '<div class="mr"><div class="av" style="background:'+colorFor(m.name)+'">'+initials(m.name)+'</div><div class="info"><div class="nm">'+esc(m.name)+'</div><div class="em2">'+esc(m.email)+' · '+esc(m.role)+'</div></div><span class="pil '+(m.access==='full'?'pg1':m.access==='read'?'pb':'pp')+'">'+m.access+'</span><button class="ib dg" onclick="removeMember(\''+m.id+'\')">🗑</button></div>'}).join('')}
+if(!members.length){
+ml.innerHTML='<div class="em" style="padding:20px"><div class="bg2">🤝</div>No team members yet.</div>';
+}else{
+var h='';
+for(var i=0;i<members.length;i++){
+var m=members[i];
+var ac=m.access==='full'?'pg1':m.access==='read'?'pb':'pp';
+h+='<div class="mr"><div class="av" style="background:'+colorFor(m.name)+'">'+initials(m.name)+'</div><div class="info"><div class="nm">'+esc(m.name)+'</div><div class="em2">'+esc(m.email)+' · '+esc(m.role)+'</div></div><span class="pil '+ac+'">'+m.access+'</span><button class="ib dg" onclick="removeMember(\''+m.id+'\')">🗑</button></div>';
+}
+ml.innerHTML=h;
+}
 var sp=document.getElementById('sharedPatients');
-if(!d.patients.length){sp.innerHTML='<div class="em" style="padding:20px">No patients to share.</div>'}
-else{sp.innerHTML=d.patients.map(function(p){return '<div class="mr"><div class="av" style="background:'+colorFor(p.name)+'">'+initials(p.name)+'</div><div class="info"><div class="nm">'+esc(p.name)+'</div><div class="em2">'+esc(p.condition)+'</div></div><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" '+(p.shared?'checked':'')+' onchange="toggleShare(\''+p.id+'\',this.checked)"/>Shared</label></div>'}).join('')}
+if(!d.patients.length){
+sp.innerHTML='<div class="em" style="padding:20px">No patients to share.</div>';
+}else{
+var h2='';
+for(var j=0;j<d.patients.length;j++){
+var p=d.patients[j];
+h2+='<div class="mr"><div class="av" style="background:'+colorFor(p.name)+'">'+initials(p.name)+'</div><div class="info"><div class="nm">'+esc(p.name)+'</div><div class="em2">'+esc(p.condition)+'</div></div><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" '+(p.shared?'checked':'')+' onchange="toggleShare(\''+p.id+'\',this.checked)"/>Shared</label></div>';
+}
+sp.innerHTML=h2;
+}
 }
 function openInviteModal(){
-['invName','invEmail','invNotes'].forEach(function(f){document.getElementById(f).value=''});
+document.getElementById('invName').value='';
+document.getElementById('invEmail').value='';
+document.getElementById('invNotes').value='';
 document.getElementById('invRole').value='Physiotherapist';
 document.getElementById('invAccess').value='full';
 openModal('inviteModal');
@@ -853,12 +932,19 @@ toast('Team member added','ok');
 }
 function removeMember(id){
 if(!confirm('Remove this team member?'))return;
-DB.update(function(d){d.team=(d.team||[]).filter(function(m){return m.id!==id})});
+DB.update(function(d){
+var nt=[];
+var t=d.team||[];
+for(var i=0;i<t.length;i++){if(t[i].id!==id)nt.push(t[i])}
+d.team=nt;
+});
 renderTeam();
 toast('Member removed','ok');
 }
 function toggleShare(pid,shared){
-DB.update(function(d){var p=d.patients.find(function(x){return x.id===pid});if(p)p.shared=shared});
+DB.update(function(d){
+for(var i=0;i<d.patients.length;i++){if(d.patients[i].id===pid){d.patients[i].shared=shared;break}}
+});
 toast(shared?'Shared with team':'Unshared','ok');
 }
 function renderSettings(){
@@ -891,8 +977,8 @@ if(!confirm('Erase ALL patients, sessions, alerts? This cannot be undone.'))retu
 DB.update(function(d){d.patients=[];d.sessions=[];d.alerts=[];d.alertAcks={}});
 refreshAll();
 toast('All data erased','ok');
-  }
-  function exportReport(){
+}
+function exportReport(){
 var d=DB.read();
 var jsPDF=window.jspdf.jsPDF;
 var doc=new jsPDF('p','pt','a4');
@@ -924,22 +1010,23 @@ doc.setFontSize(13);doc.setFont('helvetica','bold');
 doc.text('Caseload Summary',margin,y);y+=18;
 doc.setFontSize(10);doc.setFont('helvetica','normal');
 var rows=[['Total patients',String(d.patients.length)],['Active alerts',String(alerts.length)],['Total sessions',String(d.sessions.length)]];
-rows.forEach(function(r){doc.text(r[0]+':',margin,y);doc.text(r[1],margin+180,y);y+=14});
+for(var i=0;i<rows.length;i++){doc.text(rows[i][0]+':',margin,y);doc.text(rows[i][1],margin+180,y);y+=14}
 y+=12;
 doc.setDrawColor(226,232,240);
 doc.line(margin,y,pageW-margin,y);y+=20;
 doc.setFontSize(13);doc.setFont('helvetica','bold');
 doc.text('Patient Details',margin,y);y+=18;
-d.patients.forEach(function(p,i){
+for(var j=0;j<d.patients.length;j++){
+var p=d.patients[j];
 var m=patientMetrics(p,d.sessions);
 if(y>pageH-100){doc.addPage();y=margin}
 doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(15,118,110);
-doc.text((i+1)+'. '+p.name,margin,y);y+=15;
+doc.text((j+1)+'. '+p.name,margin,y);y+=15;
 doc.setFont('helvetica','normal');doc.setTextColor(15,23,42);doc.setFontSize(9.5);
 var info=['Age: '+(p.age||'—')+'    Condition: '+p.condition,'Phase: '+p.phase+'    Target ROM: '+p.target+'°','Adherence: '+m.adherence+'%    Avg Quality: '+Math.round(m.q7),'Status: '+m.status+'    ROM %: '+m.romPct+'%','Sessions: '+m.sessions.length];
-info.forEach(function(l){doc.text(l,margin+10,y);y+=13});
+for(var k=0;k<info.length;k++){doc.text(info[k],margin+10,y);y+=13}
 y+=8;
-});
+}
 var tp=doc.internal.getNumberOfPages();
 for(var pg=1;pg<=tp;pg++){doc.setPage(pg);doc.setFontSize(8);doc.setTextColor(100,116,139);doc.text('PhysioTrack Pro · Confidential · Page '+pg+' of '+tp,pageW/2,pageH-20,{align:'center'})}
 doc.save('PhysioTrack-Report-'+new Date().toISOString().slice(0,10)+'.pdf');
@@ -947,7 +1034,9 @@ toast('PDF report downloaded','ok');
 }
 function exportPatientReport(){
 var d=DB.read();
-var p=d.patients.find(function(x){return x.id===window._currentPatientId})||d.patients[0];
+var p=null;
+for(var i=0;i<d.patients.length;i++){if(d.patients[i].id===window._currentPatientId){p=d.patients[i];break}}
+if(!p&&d.patients.length)p=d.patients[0];
 if(!p){toast('No patient selected','er2');return}
 var m=patientMetrics(p,d.sessions);
 var jsPDF=window.jspdf.jsPDF;
@@ -969,8 +1058,8 @@ doc.setTextColor(15,23,42);
 doc.setFontSize(13);doc.setFont('helvetica','bold');
 doc.text('Patient Information',margin,y);y+=18;
 doc.setFontSize(10);doc.setFont('helvetica','normal');
-var info=[['Name',p.name],['Age',String(p.age||'—')],['Condition',p.condition],['Phase',p.phase],['Prescribed',p.freq+' sessions/week'],['Target ROM',p.target+'°']];
-info.forEach(function(r){doc.text(r[0]+':',margin,y);doc.text(String(r[1]),margin+180,y);y+=14});
+var info=[['Name',p.name],['Age',String(p.age||'—')],['Condition',p.condition],['Phase',p.phase],['Prescribed',p.freq+' sessions/week'],['Target ROM',p.target+'°'],['Caregiver',p.caregiver||'—']];
+for(var i=0;i<info.length;i++){doc.text(info[i][0]+':',margin,y);doc.text(String(info[i][1]),margin+180,y);y+=14}
 y+=10;
 doc.setDrawColor(226,232,240);
 doc.line(margin,y,pageW-margin,y);y+=18;
@@ -978,193 +1067,44 @@ doc.setFontSize(13);doc.setFont('helvetica','bold');
 doc.text('Current Status',margin,y);y+=18;
 doc.setFontSize(10);doc.setFont('helvetica','normal');
 var stat=[['Status',m.status],['Adherence',m.adherence+'%'],['Avg Quality',String(Math.round(m.q7))],['Latest ROM',m.latestRom+'° ('+m.romPct+'%)'],['Sessions',String(m.sessions.length)]];
-stat.forEach(function(r){doc.text(r[0]+':',margin,y);doc.text(String(r[1]),margin+180,y);y+=14});
-var alerts=activeAlerts().filter(function(a){return a.patientId===p.id});
+for(var j=0;j<stat.length;j++){doc.text(stat[j][0]+':',margin,y);doc.text(String(stat[j][1]),margin+180,y);y+=14}
+var alerts=activeAlerts().filter?activeAlerts():[];
+var pAlerts=[];
+var aa=activeAlerts();
+for(var k=0;k<aa.length;k++){if(aa[k].patientId===p.id)pAlerts.push(aa[k])}
 y+=12;
 doc.setFontSize(13);doc.setFont('helvetica','bold');
-doc.text('Active Alerts ('+alerts.length+')',margin,y);y+=16;
+doc.text('Active Alerts ('+pAlerts.length+')',margin,y);y+=16;
 doc.setFontSize(10);doc.setFont('helvetica','normal');
-if(!alerts.length){doc.setTextColor(22,101,52);doc.text('No active alerts.',margin,y);y+=16;doc.setTextColor(15,23,42)}
-else{alerts.forEach(function(a){doc.setFont('helvetica','bold');doc.text('['+a.severity+'] '+a.title,margin+10,y);y+=13;doc.setFont('helvetica','normal');doc.text('Action: '+a.action,margin+20,y);y+=14})}
+if(!pAlerts.length){doc.setTextColor(22,101,52);doc.text('No active alerts.',margin,y);y+=16;doc.setTextColor(15,23,42)}
+else{
+for(var a=0;a<pAlerts.length;a++){
+doc.setFont('helvetica','bold');
+doc.text('['+pAlerts[a].severity+'] '+pAlerts[a].title,margin+10,y);y+=13;
+doc.setFont('helvetica','normal');
+doc.text('Action: '+pAlerts[a].action,margin+20,y);y+=14;
+}
+}
 var tp=doc.internal.getNumberOfPages();
 for(var pg=1;pg<=tp;pg++){doc.setPage(pg);doc.setFontSize(8);doc.setTextColor(100,116,139);doc.text('PhysioTrack Pro · '+p.name+' · Page '+pg+' of '+tp,pageW/2,pageH-20,{align:'center'})}
 doc.save('Patient-'+p.name.replace(/\s+/g,'_')+'-Report.pdf');
 toast('Patient PDF downloaded','ok');
-}
-var pose=null,camera=null;
-var poseState={running:false,exercise:'Knee Extension',reps:0,angles:[],minAngle:Infinity,maxAngle:-Infinity,currentAngle:0,repPhase:'up',qualityScores:[],repLog:[]};
-var EX_CFG={'Knee Extension':{left:['left_hip','left_knee','left_ankle'],right:['right_hip','right_knee','right_ankle'],downAngle:95,upAngle:160},'Squat':{left:['left_hip','left_knee','left_ankle'],right:['right_hip','right_knee','right_ankle'],downAngle:100,upAngle:165},'Shoulder Flexion':{left:['left_hip','left_shoulder','left_elbow'],right:['right_hip','right_shoulder','right_elbow'],downAngle:40,upAngle:160},'Arm Raise':{left:['left_hip','left_shoulder','left_elbow'],right:['right_hip','right_shoulder','right_elbow'],downAngle:40,upAngle:160}};
-function populatePosePatientSelect(){
-var d=DB.read();
-var sel=document.getElementById('posePatient');if(!sel)return;
-var cur=sel.value;
-sel.innerHTML=d.patients.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join('')||'<option value="">No patients</option>';
-if(cur&&d.patients.some(function(p){return p.id===cur}))sel.value=cur;
-}
-function selectExercise(btn){
-document.querySelectorAll('#exerciseTargets button').forEach(function(b){b.classList.remove('on')});
-btn.classList.add('on');
-poseState.exercise=btn.dataset.ex;
-document.getElementById('hudExercise').textContent=btn.dataset.ex;
-resetPoseState();
-}
-function resetPoseState(){poseState.reps=0;poseState.angles=[];poseState.minAngle=Infinity;poseState.maxAngle=-Infinity;poseState.currentAngle=0;poseState.repPhase='up';poseState.qualityScores=[];poseState.repLog=[];updatePoseUI()}
-function togglePoseHelp(){var h=document.getElementById('poseHelp');h.style.display=h.style.display==='none'?'block':'none'}
-function startPose(){
-try{
-if(!pose){
-pose=new Pose({locateFile:function(f){return 'https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/'+f}});
-pose.setOptions({modelComplexity:1,smoothLandmarks:true,enableSegmentation:false,minDetectionConfidence:0.5,minTrackingConfidence:0.5});
-pose.onResults(onPoseResults);
-}
-var video=document.getElementById('poseVideo');
-camera=new Camera(video,{onFrame:async function(){await pose.send({image:video})},width:640,height:480});
-camera.start().then(function(){
-poseState.running=true;
-document.getElementById('poseStartBtn').disabled=true;
-document.getElementById('poseStopBtn').disabled=false;
-document.getElementById('poseSaveBtn').disabled=false;
-resetPoseState();
-setFeedback('Camera running. Stand back so your full body is visible.','');
-toast('Camera started','ok');
-}).catch(function(err){
-console.error(err);
-setFeedback('Could not access camera. Grant permission or check HTTPS.','bad');
-toast('Camera error: '+err.message,'er2');
-});
-}catch(err){console.error(err);setFeedback('Camera init failed','bad')}
-}
-function stopPose(){
-if(camera){try{camera.stop()}catch(e){}camera=null}
-poseState.running=false;
-var vb=document.getElementById('poseStartBtn');
-var sb=document.getElementById('poseStopBtn');
-if(vb)vb.disabled=false;
-if(sb)sb.disabled=true;
-}
-function onPoseResults(results){
-var canvas=document.getElementById('poseCanvas');
-var ctx=canvas.getContext('2d');
-canvas.width=results.image.width;
-canvas.height=results.image.height;
-ctx.save();ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.drawImage(results.image,0,0,canvas.width,canvas.height);
-if(results.poseLandmarks){
-drawConnectors(ctx,results.poseLandmarks,POSE_CONNECTIONS,{color:'#14b8a6',lineWidth:3});
-drawLandmarks(ctx,results.poseLandmarks,{color:'#0f766e',lineWidth:1,radius:4});
-analyzePose(results.poseLandmarks);
-}
-ctx.restore();
-}
-function angleAt(a,b,c){
-var ab={x:a.x-b.x,y:a.y-b.y};
-var cb={x:c.x-b.x,y:c.y-b.y};
-var dot=ab.x*cb.x+ab.y*cb.y;
-var mA=Math.hypot(ab.x,ab.y);
-var mC=Math.hypot(cb.x,cb.y);
-if(mA===0||mC===0)return 0;
-var cos=Math.max(-1,Math.min(1,dot/(mA*mC)));
-return Math.acos(cos)*180/Math.PI;
-}
-function lm(landmarks,name){
-var idx={left_shoulder:11,right_shoulder:12,left_elbow:13,right_elbow:14,left_wrist:15,right_wrist:16,left_hip:23,right_hip:24,left_knee:25,right_knee:26,left_ankle:27,right_ankle:28}[name];
-return idx!=null?landmarks[idx]:null;
-}
-function analyzePose(landmarks){
-var cfg=EX_CFG[poseState.exercise];
-if(!cfg)return;
-var getAngle=function(side){
-var a=lm(landmarks,cfg[side][0]);
-var b=lm(landmarks,cfg[side][1]);
-var c=lm(landmarks,cfg[side][2]);
-if(!a||!b||!c)return null;
-return angleAt(a,b,c);
-};
-var lA=getAngle('left'),rA=getAngle('right');
-var visL=lA&&lm(landmarks,cfg.left[0])&&lm(landmarks,cfg.left[0]).visibility>0.5;
-var visR=rA&&lm(landmarks,cfg.right[0])&&lm(landmarks,cfg.right[0]).visibility>0.5;
-var angle=null;
-if(visL&&visR)angle=(lA+rA)/2;
-else if(visL)angle=lA;
-else if(visR)angle=rA;
-if(angle==null)return;
-poseState.currentAngle=angle;
-poseState.angles.push(angle);
-if(poseState.angles.length>300)poseState.angles.shift();
-poseState.minAngle=Math.min(poseState.minAngle,angle);
-poseState.maxAngle=Math.max(poseState.maxAngle,angle);
-var isLow=angle<=cfg.downAngle;
-var isHigh=angle>=cfg.upAngle;
-if(poseState.repPhase==='up'&&isLow){poseState.repPhase='down'}
-else if(poseState.repPhase==='down'&&isHigh){
-poseState.repPhase='up';
-var rom=poseState.maxAngle-poseState.minAngle;
-var quality=scoreRep(rom,poseState.exercise);
-poseState.reps+=1;
-poseState.qualityScores.push(quality);
-poseState.repLog.unshift({n:poseState.reps,rom:Math.round(rom),quality:quality,time:new Date().toLocaleTimeString()});
-poseState.minAngle=Infinity;
-poseState.maxAngle=-Infinity;
-}
-updatePoseUI();
-var status=liveFormStatus(angle,cfg);
-setFeedback(status.msg,status.cls);
-}
-function scoreRep(rom,ex){
-var opt={'Knee Extension':{min:60,max:80},'Squat':{min:55,max:75},'Shoulder Flexion':{min:100,max:130},'Arm Raise':{min:100,max:130}}[ex]||{min:60,max:80};
-var base=50;
-if(rom>=opt.min&&rom<=opt.max)base=95;
-else if(rom<opt.min)base=50+(rom/opt.min)*40;
-else base=Math.max(70,95-(rom-opt.max)*0.8);
-return Math.round(Math.max(0,Math.min(100,base)));
-}
-function liveFormStatus(angle,cfg){
-if(poseState.repPhase==='down'){
-if(angle>cfg.downAngle+15)return{msg:'Deeper flexion needed.',cls:'warn'};
-return{msg:'Good depth — extend smoothly.',cls:''};
-}else{
-if(angle<cfg.upAngle-15)return{msg:'Extend further.',cls:'warn'};
-return{msg:'Full extension achieved!',cls:''};
-}
-}
-function updatePoseUI(){
-document.getElementById('statReps').textContent=poseState.reps;
-document.getElementById('statAngle').textContent=Math.round(poseState.currentAngle)+'°';
-var avgQ=poseState.qualityScores.length?Math.round(poseState.qualityScores.reduce(function(a,b){return a+b},0)/poseState.qualityScores.length):null;
-document.getElementById('statQuality').textContent=avgQ!=null?avgQ:'—';
-document.getElementById('statRange').textContent=poseState.minAngle===Infinity?'—':Math.round(poseState.minAngle)+'–'+Math.round(poseState.maxAngle)+'°';
-document.getElementById('hudReps').textContent='Reps: '+poseState.reps;
-var hq=document.getElementById('hudQuality');
-hq.textContent='Form: '+(avgQ!=null?avgQ:'—');
-hq.className='hc '+(avgQ==null?'':avgQ>=80?'good':avgQ>=60?'warn':'bad');
-var log=document.getElementById('repLog');
-if(poseState.repLog.length){log.innerHTML=poseState.repLog.map(function(r){return '<div style="padding:5px 0;border-bottom:1px solid #f1f5f9"><strong>Rep '+r.n+'</strong> · ROM '+r.rom+'° · Quality '+r.quality+'</div>'}).join('')}
-else{log.innerHTML='<div style="color:var(--m)">Reps will appear here…</div>'}
-}
-function setFeedback(msg,cls){var f=document.getElementById('poseFeedback');f.textContent=msg;f.className='pf '+(cls||'')}
-function savePoseSession(){
-var patientId=document.getElementById('posePatient').value;
-if(!patientId){toast('Select a patient','er2');return}
-if(poseState.reps===0){toast('No reps detected','er2');return}
-var avgQ=Math.round(poseState.qualityScores.reduce(function(a,b){return a+b},0)/poseState.qualityScores.length);
-var rom=Math.round(poseState.maxAngle-poseState.minAngle);
-var session={id:uid(),patientId:patientId,exercise:poseState.exercise,date:new Date().toISOString().slice(0,10),reps:poseState.reps,quality:avgQ,rom:rom,painPre:0,painPost:0,notes:'AI pose session · avg quality '+avgQ};
-DB.update(function(d){d.sessions.push(session)});
-refreshAll();
-toast('Session saved ('+poseState.reps+' reps, quality '+avgQ+')','ok');
 }
 (function boot(){
 DB.init();
 var d=DB.read();
 if(d.currentUser)enterApp();
 else document.getElementById('authScreen').style.display='flex';
-document.querySelectorAll('.mb').forEach(function(m){
-m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('on')});
-});
+var mbs=document.querySelectorAll('.mb');
+for(var i=0;i<mbs.length;i++){
+mbs[i].addEventListener('click',function(e){if(e.target===this)this.classList.remove('on')});
+}
 document.addEventListener('keydown',function(e){
-if(e.key==='Escape')document.querySelectorAll('.mb.on').forEach(function(m){m.classList.remove('on')});
+if(e.key==='Escape'){
+var open=document.querySelectorAll('.mb.on');
+for(var j=0;j<open.length;j++)open[j].classList.remove('on');
+}
 });
-window.addEventListener('beforeunload',function(){stopPose()});
 })();
 </script>
 </body>
